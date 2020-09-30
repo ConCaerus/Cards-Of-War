@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4477391a9aeb74da81e2277123916b, type: 3}
+  m_Name: TestDialog
+  m_EditorClassIdentifier: 
+  introDialog:
+  - Welcome to my game.
+  - Prepare to lose
+  - I'll go easy on you
+  - Don't let your guard down
+  - I will end you
+  battleDialog:
+  - I will crush you
+  - Watch your back
+  - I love you
+  - Just kidding
+  - You thought
+  - This is a really long sentance that will go on two lines or more.
+  cheatDialog:
+  - You fell for my trap card
+  - Imbecile
+  - Experience my power
+  winDialog:
+  - Yes! I won
+  - As expected
+  - You'll do well to remember this
+  loseDialog:
+  - Fuck! I lost
+  - This is not over
+  - I'll have my revenge

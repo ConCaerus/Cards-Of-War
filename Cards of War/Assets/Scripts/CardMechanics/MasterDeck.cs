@@ -1,0 +1,91 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MasterDeck : MonoBehaviour {
+
+    /*
+
+    Clubs       [0, 12]
+    Diamonds    [13, 25]
+    Hearts      [26, 38]
+    Spades      [39, 51]
+
+    */
+
+    //  this is the list that does not get touched. It is only here so I have a place where I can get a list of all the cards
+    [SerializeField] Card[] filledDeckPreset;
+    //  this deck is so I know what cards are have been used
+    List<Card> filledDeck = new List<Card>();
+
+    //  default card object preset
+    public GameObject cardObject;
+
+    Deck playerDeck, opponentDeck;
+
+
+    private void Awake() {
+        //  destroys any cards already in the scene
+        destroyAllCardsInScene();
+
+        //  resets the filled deck so that it is filled with cards
+        resetFilledDeck();
+
+        //  Automatically sets the player and opponent deck in the script.
+        playerDeck = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>();
+        opponentDeck = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>();
+    }
+
+
+    void resetFilledDeck() {
+        filledDeck.Clear();
+        foreach(var i in filledDeckPreset)
+            filledDeck.Add(i);
+    }
+
+    void destroyAllCardsInScene() {
+        foreach(var i in FindObjectsOfType<CardObject>()) {
+            Destroy(i.gameObject);
+        }
+    }
+    
+
+    public void populateDecks() {
+        for(int i = 0; i < filledDeckPreset.Length; i++) {
+            if(i % 2 == 0) {    //  sort the card into the player's deck
+                //  create a card object and send it to the player's deck
+                var temp = Instantiate(cardObject, transform.position, Quaternion.identity);
+                temp.GetComponent<CardObject>().setCard(takeRandomCard());
+                playerDeck.addCardToDeck(temp.gameObject);
+
+                //  animate the movement of the card
+                FindObjectOfType<CardMovement>().moveCardObjectToPlayerDeckPos(temp.gameObject);
+            } 
+            else {  //  sort the card into the opponent's deck
+                //  create a card object and send it to the opponent's deck
+                var temp = Instantiate(cardObject, transform.position, Quaternion.identity);
+                temp.GetComponent<CardObject>().setCard(takeRandomCard());
+                opponentDeck.addCardToDeck(temp.gameObject);
+
+                //  animate the movement of the card
+                FindObjectOfType<CardMovement>().moveCardObjectToOpponentDeckPos(temp.gameObject);
+            }
+        }
+    }
+
+    //  takes random card from the filledDeck
+    public Card takeRandomCard() {
+        if(filledDeck.Count > 0) {
+            int rand = Random.Range(0, filledDeck.Count);
+
+            Card temp = filledDeck[rand];
+
+            filledDeck.Remove(temp);
+
+            return temp;
+        }
+
+        Debug.Log("Out of cards");
+        return null;
+    }
+}
