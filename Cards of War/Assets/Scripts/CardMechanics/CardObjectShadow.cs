@@ -33,6 +33,7 @@ public class CardObjectShadow : MonoBehaviour {
         var sr = shadow.AddComponent<SpriteRenderer>();
         sr.sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
         sr.color = Color.black;
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.g, 0.5f);
         sr.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
 
         shadow.transform.position = transform.position;
