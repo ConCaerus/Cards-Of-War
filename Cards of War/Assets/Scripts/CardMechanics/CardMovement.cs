@@ -50,156 +50,174 @@ public class CardMovement : MonoBehaviour {
 
     float allowedError = 0.05f, avgTime = 0.5f;
     public void moveCardObjectToPlayerDeckPos(GameObject ob) {
-        float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+        if(ob != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-allowedError, allowedError);
-        randPos.y = Random.Range(-allowedError, allowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
 
-        DOTween.Kill(ob, true);
-        ob.transform.DOMove(playerDeckPos + randPos, randTime, false);
+            DOTween.Kill(ob, true);
+            ob.transform.DOMove(playerDeckPos + randPos, randTime, false);
+        }
     }
 
     public void moveCardObjectToOpponentDeckPos(GameObject ob) {
-        float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+        if(ob != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
 
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-allowedError, allowedError);
-        randPos.y = Random.Range(-allowedError, allowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
 
-        DOTween.Kill(ob, true);
-        ob.transform.DOMove(opponentDeckPos + randPos, randTime, false);
+            DOTween.Kill(ob, true);
+            ob.transform.DOMove(opponentDeckPos + randPos, randTime, false);
+        }
     }
 
 
     //  move to win piles
 
     public void moveCardObjectToPlayerWinPile(GameObject ob) {
-        float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+        if(ob != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
 
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-allowedError, allowedError);
-        randPos.y = Random.Range(-allowedError, allowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
 
-        DOTween.Kill(ob, true);
-        ob.transform.DOMove(playerWinPilePos + randPos, randTime, false);
+            DOTween.Kill(ob, true);
+            ob.transform.DOMove(playerWinPilePos + randPos, randTime, false);
 
-        if(!ob.GetComponent<CardObject>().getShowingface())
-            ob.GetComponent<CardObject>().showCardFace();
+            if(!ob.GetComponent<CardObject>().getShowingface())
+                ob.GetComponent<CardObject>().showCardFace();
+        }
     }
 
     public void moveCardObjectToOpponentWinPile(GameObject ob) {
-        float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+        if(ob != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
 
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-allowedError, allowedError);
-        randPos.y = Random.Range(-allowedError, allowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
 
-        DOTween.Kill(ob, true);
-        ob.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
+            DOTween.Kill(ob, true);
+            ob.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
 
-        if(!ob.GetComponent<CardObject>().getShowingface())
-            ob.GetComponent<CardObject>().showCardFace();
+            if(!ob.GetComponent<CardObject>().getShowingface())
+                ob.GetComponent<CardObject>().showCardFace();
+        }
     }
 
     //  move resolved cards
 
     public void moveResolvedCardObjectsPlayerWins(GameObject a, GameObject b = null) {
-        float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+        if(a != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
 
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-allowedError, allowedError);
-        randPos.y = Random.Range(-allowedError, allowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
 
-        DOTween.Kill(a, true);
-        a.transform.DOMove(playerWinPilePos + randPos, randTime, false);
-        //  moves the resolved cards over to the win pile script
-        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().addCardToPile(a);
+            DOTween.Kill(a, true);
+            a.transform.DOMove(playerWinPilePos + randPos, randTime, false);
+            //  moves the resolved cards over to the win pile script
+            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().addCardToPile(a);
 
-        if(b != null)
-            moveResolvedCardObjectsPlayerWins(b);
+            if(b != null)
+                moveResolvedCardObjectsPlayerWins(b);
+        }
     }
 
     public void moveResolvedCardObjectsOpponentWins(GameObject a, GameObject b = null) {
-        float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+        if(a != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
 
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-allowedError, allowedError);
-        randPos.y = Random.Range(-allowedError, allowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
 
-        DOTween.Kill(a, true);
-        a.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
+            DOTween.Kill(a, true);
+            a.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
 
-        //  moves the resolved cards over to the win pile script
-        GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().addCardToPile(a);
+            //  moves the resolved cards over to the win pile script
+            GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().addCardToPile(a);
 
-        if(b != null)
-            moveResolvedCardObjectsOpponentWins(b);
+            if(b != null)
+                moveResolvedCardObjectsOpponentWins(b);
+        }
     }
 
     public void moveResolvedCardObjectsDraw(GameObject p, GameObject o = null) {
-        float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+        if(p != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
 
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-allowedError, allowedError);
-        randPos.y = Random.Range(-allowedError, allowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
 
-        DOTween.Kill(p, true);
-        p.transform.DOMove(playerWinPilePos + randPos, randTime, false);
+            DOTween.Kill(p, true);
+            p.transform.DOMove(playerWinPilePos + randPos, randTime, false);
 
-        //  moves the resolved cards over to the win pile script
-        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().addCardToPile(p);
+            //  moves the resolved cards over to the win pile script
+            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().addCardToPile(p);
 
-        if(o != null)
-            moveResolvedCardObjectsOpponentWins(o);
+            if(o != null)
+                moveResolvedCardObjectsOpponentWins(o);
+        }
     }
 
 
     //  move to play pos
 
     public void moveOpponentHeldCardToPlayPos() {
-        float opponentHeldCardAllowedError = 0.5f;
-        float randTime = 0.5f; //   set to the desired norm time;
+        if(opponentHeldCardObject != null) {
+            float opponentHeldCardAllowedError = 0.5f;
+            float randTime = 0.5f; //   set to the desired norm time;
 
-        //  don't use opponent allowed error here, possibility for instant movement
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            //  don't use opponent allowed error here, possibility for instant movement
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
-        randPos.y = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
+            randPos.y = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
 
-        DOTween.Kill(opponentHeldCardObject, true);
-        opponentHeldCardObject.transform.DOMove(opponentPlayPos + randPos, randTime, false);
+            DOTween.Kill(opponentHeldCardObject, true);
+            opponentHeldCardObject.transform.DOMove(opponentPlayPos + randPos, randTime, false);
 
-        recentOpponentPlayPos = opponentPlayPos + randPos;
+            recentOpponentPlayPos = opponentPlayPos + randPos;
+        }
     }
 
     //  if I ever have a player auto play feature. (gave up cause onMouseDrag doesn't detect right clicks)
     void movePlayerHeldCardToPlayPos() {
-        float playerHeldCardAllowedError = 0.5f;
-        float randTime = 0.5f; //   set to the desired norm time;
+        if(playerHeldCardObject != null) {
+            float playerHeldCardAllowedError = 0.5f;
+            float randTime = 0.5f; //   set to the desired norm time;
 
-        //  don't use player allowed error here, possibility for instant movement
-        randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+            //  don't use player allowed error here, possibility for instant movement
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
 
-        Vector2 randPos;
-        randPos.x = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
-        randPos.y = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
+            Vector2 randPos;
+            randPos.x = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
+            randPos.y = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
 
-        DOTween.Kill(playerHeldCardObject, true);
-        playerHeldCardObject.transform.DOMove(playerPlayPos + randPos, randTime, false);
+            DOTween.Kill(playerHeldCardObject, true);
+            playerHeldCardObject.transform.DOMove(playerPlayPos + randPos, randTime, false);
+        }
     }
 
     //  move held cards
@@ -231,9 +249,11 @@ public class CardMovement : MonoBehaviour {
     }
 
     void sendOpponentCardObject() {
-        opponentHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
-        FindObjectOfType<CardBattleMechanics>().setOpponentPlayedCard(opponentHeldCardObject);
-        opponentHeldCardObject = null;
+        if(opponentHeldCardObject != null) {
+            opponentHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+            FindObjectOfType<CardBattleMechanics>().setOpponentPlayedCard(opponentHeldCardObject);
+            opponentHeldCardObject = null;
+        }
     }
 
     bool opponentHeldCardObjectDoneMovingToPlayPos() {

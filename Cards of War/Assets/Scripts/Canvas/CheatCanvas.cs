@@ -27,7 +27,6 @@ public class CheatCanvas : MonoBehaviour {
         changeCheatSliderValues();
     }
 
-
     void changeCheatSliderValues() {
         if(playerCheatSlider.enabled == true) {
             float target = GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>().getCheatChargeAmount();

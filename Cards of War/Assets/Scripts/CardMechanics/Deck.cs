@@ -62,8 +62,6 @@ public class Deck : MonoBehaviour {
                     card.GetComponent<CardObjectShadow>().showShadow();
                     FindObjectOfType<CardMovement>().setOpponentHeldCardObject(card);
                     FindObjectOfType<CardMovement>().moveOpponentHeldCardToPlayPos();
-
-                    Debug.Log("here");
                 }
             }
         }
