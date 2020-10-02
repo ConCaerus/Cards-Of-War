@@ -5,10 +5,9 @@ using DG.Tweening;
 
 
 public class CardObjectShadow : MonoBehaviour {
-    GameObject shadow;
+    GameObject shadow = null;
 
-    bool shadowCard = false;
-    bool shown;
+    bool shown = false;
 
     float duration = 0.05f;
 
@@ -16,14 +15,9 @@ public class CardObjectShadow : MonoBehaviour {
     Vector3 setPos;
 
 
-    private void Awake() {
-        createShadow();
-        hideShadow();
-    }
-
-
     private void Update() {
-        moveShadow();
+        if(shadow != null)
+            moveShadow();
     }
 
 
@@ -41,20 +35,14 @@ public class CardObjectShadow : MonoBehaviour {
     }
 
     void moveShadow() {
-        if(shadowCard) {
-            shadow.SetActive(true);
-            if(shown) {
-                setPos = transform.position + offset;
-                shadow.transform.DOMove(setPos, duration);
-            }
-
-            else 
-                moveToSetPos();
-        } 
-        else if(!shadowCard) {
-            shadow.SetActive(false);
-            setPos = transform.position;
+        shadow.SetActive(true);
+        if(shown) {
+            setPos = transform.position + offset;
+            shadow.transform.DOMove(setPos, duration);
         }
+
+        else
+            moveToSetPos();
     }
 
 
@@ -69,15 +57,15 @@ public class CardObjectShadow : MonoBehaviour {
     }
 
     public void showShadow() {
+        if(shadow == null)
+            createShadow();
+
         shown = true;
     }
 
-    public void startShowingShadow() {
-        shadowCard = true;
-    }
-
-    public void stopShowingShadow() {
-        shadowCard = false;
+    public void destroyShadow() {
+        Destroy(shadow);
+        shadow = null;
     }
 
 

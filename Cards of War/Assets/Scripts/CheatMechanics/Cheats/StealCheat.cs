@@ -30,7 +30,6 @@ public class StealCheat : Cheat {
                 gameObject.GetComponentInChildren<Deck>().addCardToDeck(stolenCard);
 
                 FindObjectOfType<CardMovement>().stopMovingOpponentHeldCardObject();
-                gameObject.GetComponentInChildren<Deck>().opponentStartPlayingCard();
             }
         }
     }

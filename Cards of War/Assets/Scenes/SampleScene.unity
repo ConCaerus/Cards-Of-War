@@ -5146,6 +5146,7 @@ GameObject:
   - component: {fileID: 1671323953}
   - component: {fileID: 1671323956}
   - component: {fileID: 1671323954}
+  - component: {fileID: 1671323957}
   m_Layer: 0
   m_Name: Opponent
   m_TagString: Opponent
@@ -5206,6 +5207,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialog: {fileID: 11400000, guid: 03f06c29b8b2f8b4c81b7993be8f96db, type: 2}
+--- !u!114 &1671323957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671323952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fe1def4a42bdd478675544cb5549ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1737228064
 GameObject:
   m_ObjectHideFlags: 0

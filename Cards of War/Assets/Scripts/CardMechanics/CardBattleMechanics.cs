@@ -30,26 +30,16 @@ public class CardBattleMechanics : MonoBehaviour {
 
             if(advanceBattle()) {
                 //  stop card shadows
-                playerPlayedCard.GetComponent<CardObjectShadow>().stopShowingShadow();
+                playerPlayedCard.GetComponent<CardObjectShadow>().destroyShadow();
+                opponentPlayedCard.GetComponent<CardObjectShadow>().destroyShadow();
 
+                showPlayerPlayedCard();
+                showOpponentPlayedCard();
 
+                showCardResolveParticles();
 
-                //  opponent hasn't played their card yet
-                if(opponentPlayedCard == null)
-                    tellOpponentToPlayACard();
-
-                else {
-                    //  stop card shadow
-                    opponentPlayedCard.GetComponent<CardObjectShadow>().stopShowingShadow();
-
-                    showPlayerPlayedCard();
-                    showOpponentPlayedCard();
-
-                    showCardResolveParticles();
-
-                    shown = true;
-                    startedWaitToResolveBattle = StartCoroutine(waitToResolveBattle());
-                }
+                shown = true;
+                startedWaitToResolveBattle = StartCoroutine(waitToResolveBattle());
             }
         }
     }
@@ -62,17 +52,6 @@ public class CardBattleMechanics : MonoBehaviour {
             if(advanceBattle()) {
                 StopCoroutine(startedWaitToResolveBattle);
                 resolveBattle();
-            }
-        }
-    }
-
-    //  starts the opponent play process over again
-    void tellOpponentToPlayACard() {
-        //  opponent still has cards in their deck
-        if(GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0) {
-            //  no card is in play 
-            if(opponentPlayedCard == null && FindObjectOfType<CardMovement>().getOpponentHeldCardObject() == null) {
-                GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().opponentStartPlayingCard();
             }
         }
     }
@@ -150,7 +129,7 @@ public class CardBattleMechanics : MonoBehaviour {
         playerPlayedCard = null;
         opponentPlayedCard = null;
         shown = false;
-        
+
         //  resets the temp card value mods
         tempPlayerCardValueMod = 0;
         tempOpponentCardValueMod = 0;
@@ -158,9 +137,6 @@ public class CardBattleMechanics : MonoBehaviour {
 
         //  tells the opponent to use their cheat if they want to
         GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>().opponentCheatUseHandler();
-
-        //  tells the opponent to play another card from their deck
-        tellOpponentToPlayACard();
     }
 
 
@@ -184,7 +160,7 @@ public class CardBattleMechanics : MonoBehaviour {
 
 
     //  manage out of cards situations
-    
+
     void outOfCardsHandler() {
         Deck plDeck = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>();
         Deck opDeck = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>();

@@ -169,7 +169,7 @@ public class CardMovement : MonoBehaviour {
 
     //  move to play pos
 
-    void moveOpponentHeldCardToPlayPos() {
+    public void moveOpponentHeldCardToPlayPos() {
         float opponentHeldCardAllowedError = 0.5f;
         float randTime = 0.5f; //   set to the desired norm time;
 
@@ -207,9 +207,6 @@ public class CardMovement : MonoBehaviour {
     void moveHeldCardObjects() {
         //  player card code
         if(playerHeldCardObject != null) {
-            //  start showing card shadow
-            playerHeldCardObject.GetComponent<CardObjectShadow>().showShadow();
-
             //  card is still being held
             if(Input.GetMouseButton(0)) {
                 playerHeldCardObject.transform.DOMove((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.1f);
@@ -231,13 +228,6 @@ public class CardMovement : MonoBehaviour {
                 playerHeldCardObject = null;
             }
         }
-    }
-
-    public void moveOpponentCardObject() {
-        //  start showing card shadow
-        opponentHeldCardObject.GetComponent<CardObjectShadow>().showShadow();
-
-        moveOpponentHeldCardToPlayPos();
     }
 
     void sendOpponentCardObject() {

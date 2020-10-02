@@ -14,12 +14,7 @@ public class Deck : MonoBehaviour {
     private void OnMouseDrag() {
         //  pickup a card and move it with the mouse cursor.
         if(transform.parent.gameObject.tag == "Player" && canStartPlaying && getNumOfCardsInDeck() > 0) {
-            //  moves the taken card over to the cardMovement script
-            if(FindObjectOfType<CardMovement>().getPlayerHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getPlayerPlayedCard() == null) {
-                var card = takeCardInDeck();
-                card.GetComponent<CardObjectShadow>().startShowingShadow();
-                FindObjectOfType<CardMovement>().setPlayerHeldCardObject(card);
-            }
+            playCard();
         }
     }
 
@@ -41,16 +36,36 @@ public class Deck : MonoBehaviour {
     }
 
 
-    //  opponent code
+    //  play card
+    public void playCard() {
+        //  player's deck
+        if(transform.parent.tag == "Player") {
+            //  can play card
+            if(canStartPlaying && getNumOfCardsInDeck() > 0) {
+                //  checks if card is already in play
+                if(FindObjectOfType<CardMovement>().getPlayerHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getPlayerPlayedCard() == null) {
+                    var card = takeCardInDeck();
+                    card.GetComponent<CardObjectShadow>().showShadow();
+                    FindObjectOfType<CardMovement>().setPlayerHeldCardObject(card);
+                }
+            }
+        }
 
-    public void opponentStartPlayingCard() {
-        if(FindObjectOfType<CardMovement>().getOpponentHeldCardObject() == null && canStartPlaying) {
-            //  plays a card from their deck
-            var card = takeCardInDeck();
-            card.GetComponent<CardObjectShadow>().startShowingShadow();
-            FindObjectOfType<CardMovement>().setOpponentHeldCardObject(card);
 
-            FindObjectOfType<CardMovement>().moveOpponentCardObject();
+        //  opponent's deck
+        else if(transform.parent.tag == "Opponent") {
+            //  can play card
+            if(canStartPlaying && getNumOfCardsInDeck() > 0) {
+                //  checks if card is already in play
+                if(FindObjectOfType<CardMovement>().getOpponentHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard() == null) {
+                    var card = takeCardInDeck();
+                    card.GetComponent<CardObjectShadow>().showShadow();
+                    FindObjectOfType<CardMovement>().setOpponentHeldCardObject(card);
+                    FindObjectOfType<CardMovement>().moveOpponentHeldCardToPlayPos();
+
+                    Debug.Log("here");
+                }
+            }
         }
     }
 
@@ -82,8 +97,5 @@ public class Deck : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
 
         canStartPlaying = true;
-        
-        if(transform.parent.tag == "Opponent")
-            opponentStartPlayingCard();
     }
 }
