@@ -165,22 +165,32 @@ public class CardBattleMechanics : MonoBehaviour {
         Deck plDeck = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>();
         Deck opDeck = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>();
 
+        WinPile plWinPile = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>();
+        WinPile opWinPile = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>();
+
         bool endGame = false;
 
-        //  player ran out of cards
+        //  player ran out of cards;    opponent still has cards left
         if(plDeck.getNumOfCardsInDeck() == 0) {
             endGame = true;
 
-            while(opDeck.getNumOfCardsInDeck() > 0)
-                FindObjectOfType<CardMovement>().moveCardObjectToOpponentWinPile(opDeck.takeCardInDeck());
+            while(opDeck.getNumOfCardsInDeck() > 0) {
+                var temp = opDeck.takeCardInDeck();
+
+                opWinPile.addCardToPile(temp);
+                FindObjectOfType<CardMovement>().moveCardObjectToOpponentWinPile(temp);
+            }
         }
 
-        //  opponent ran out of cards
+        //  opponent ran out of cards;  player still has cards left
         else if(opDeck.getNumOfCardsInDeck() == 0) {
             endGame = true;
 
-            while(plDeck.getNumOfCardsInDeck() > 0)
-                FindObjectOfType<CardMovement>().moveCardObjectToPlayerWinPile(plDeck.takeCardInDeck());
+            while(plDeck.getNumOfCardsInDeck() > 0) {
+                var temp = plDeck.takeCardInDeck();
+                plWinPile.addCardToPile(temp);
+                FindObjectOfType<CardMovement>().moveCardObjectToPlayerWinPile(temp);
+            }
         }
 
 

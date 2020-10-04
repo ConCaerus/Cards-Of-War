@@ -54,23 +54,29 @@ public class MasterDeck : MonoBehaviour {
         for(int i = 0; i < filledDeckPreset.Length; i++) {
             if(i % 2 == 0) {    //  sort the card into the player's deck
                 //  create a card object and send it to the player's deck
-                var temp = Instantiate(cardObject, transform.position, Quaternion.identity);
-                temp.GetComponent<CardObject>().setCard(takeRandomCard());
-                playerDeck.addCardToDeck(temp.gameObject);
+                var temp = createCardObject(takeRandomCard());
+                playerDeck.addCardToDeck(temp);
 
                 //  animate the movement of the card
                 FindObjectOfType<CardMovement>().moveCardObjectToPlayerDeckPos(temp.gameObject);
             } 
             else {  //  sort the card into the opponent's deck
                 //  create a card object and send it to the opponent's deck
-                var temp = Instantiate(cardObject, transform.position, Quaternion.identity);
-                temp.GetComponent<CardObject>().setCard(takeRandomCard());
-                opponentDeck.addCardToDeck(temp.gameObject);
+                var temp = createCardObject(takeRandomCard());
+                opponentDeck.addCardToDeck(temp);
 
                 //  animate the movement of the card
                 FindObjectOfType<CardMovement>().moveCardObjectToOpponentDeckPos(temp.gameObject);
             }
         }
+    }
+
+    //  creates a card object from a regular card
+    public GameObject createCardObject(Card card) {
+        var ob = Instantiate(cardObject, transform.position, Quaternion.identity);
+        ob.GetComponent<CardObject>().setCard(card);
+
+        return ob;
     }
 
     //  takes random card from the filledDeck
@@ -87,5 +93,11 @@ public class MasterDeck : MonoBehaviour {
 
         Debug.Log("Out of cards");
         return null;
+    }
+
+    //  takes random card from the deck preset
+    public Card takeRandomCardFromPreset() {
+        int rand = Random.Range(0, filledDeckPreset.Length - 1);
+        return filledDeckPreset[rand];
     }
 }

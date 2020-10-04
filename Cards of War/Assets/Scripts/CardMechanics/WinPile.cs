@@ -17,11 +17,11 @@ public class WinPile : MonoBehaviour {
 
     public void addCardToPile(GameObject card, GameObject other = null) {
         cardsInPile.Add(card);
-        card.transform.SetParent(gameObject.transform);
+        card.transform.SetParent(transform);
 
         if(other != null) {
             cardsInPile.Add(other);
-            other.transform.SetParent(gameObject.transform);
+            other.transform.SetParent(transform);
         }
 
         setSortingOrderForCardsInPile();
