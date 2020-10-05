@@ -26,8 +26,6 @@ public class GameStateHandler : MonoBehaviour {
 
         //  deals cards
         FindObjectOfType<MasterDeck>().populateDecks();
-        foreach(var i in FindObjectsOfType<Deck>())
-            StartCoroutine(i.waitToStartPlaying());
 
         //  opponent starts intro dialog
         GameObject.FindGameObjectWithTag("Opponent").GetComponent<DialogHandler>().startIntroDialog();
@@ -36,8 +34,6 @@ public class GameStateHandler : MonoBehaviour {
 
     public void dealCards() {
         FindObjectOfType<MasterDeck>().populateDecks();
-        foreach(var i in FindObjectsOfType<Deck>())
-            StartCoroutine(i.waitToStartPlaying());
     }
 
     public void startOpponentDialog() {

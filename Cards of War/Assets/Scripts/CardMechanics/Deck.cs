@@ -88,12 +88,8 @@ public class Deck : MonoBehaviour {
         return mouseOverCollider;
     }
 
-
-    //  waiters
-
-    public IEnumerator waitToStartPlaying() {
-        yield return new WaitForSeconds(1.0f);
-
-        canStartPlaying = true;
+    //  setters
+    public void setCanStartPlaying(bool b) {
+        canStartPlaying = b;
     }
 }

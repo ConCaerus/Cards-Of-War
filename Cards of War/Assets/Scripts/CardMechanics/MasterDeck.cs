@@ -23,6 +23,8 @@ public class MasterDeck : MonoBehaviour {
 
     Deck playerDeck, opponentDeck;
 
+    const float deckPopDelay = 0.01f;
+
 
     private void Awake() {
         //  destroys any cards already in the scene
@@ -51,24 +53,30 @@ public class MasterDeck : MonoBehaviour {
     
 
     public void populateDecks() {
+        List<GameObject> playerCards = new List<GameObject>();
+        List<GameObject> opponentCards = new List<GameObject>();
+
+        playerCards.Clear();
+        opponentCards.Clear();
         for(int i = 0; i < filledDeckPreset.Length; i++) {
             if(i % 2 == 0) {    //  sort the card into the player's deck
                 //  create a card object and send it to the player's deck
                 var temp = createCardObject(takeRandomCard());
                 playerDeck.addCardToDeck(temp);
 
-                //  animate the movement of the card
-                FindObjectOfType<CardMovement>().moveCardObjectToPlayerDeckPos(temp.gameObject);
+                playerCards.Add(temp);
             } 
             else {  //  sort the card into the opponent's deck
                 //  create a card object and send it to the opponent's deck
                 var temp = createCardObject(takeRandomCard());
                 opponentDeck.addCardToDeck(temp);
 
-                //  animate the movement of the card
-                FindObjectOfType<CardMovement>().moveCardObjectToOpponentDeckPos(temp.gameObject);
+                opponentCards.Add(temp);
             }
         }
+
+        StartCoroutine(delayMovingCardsToDecks("Player", playerCards));
+        StartCoroutine(delayMovingCardsToDecks("Opponent", opponentCards));
     }
 
     //  creates a card object from a regular card
@@ -99,5 +107,29 @@ public class MasterDeck : MonoBehaviour {
     public Card takeRandomCardFromPreset() {
         int rand = Random.Range(0, filledDeckPreset.Length - 1);
         return filledDeckPreset[rand];
+    }
+
+
+    IEnumerator delayMovingCardsToDecks(string type, List<GameObject> cards) {
+        int lastIndex = cards.Count - 1;
+
+        yield return new WaitForSeconds(deckPopDelay);
+
+        if(type == "Player")
+            FindObjectOfType<CardMovement>().moveCardObjectToPlayerDeckPos(cards[lastIndex]);
+        else if(type == "Opponent")
+            FindObjectOfType<CardMovement>().moveCardObjectToOpponentDeckPos(cards[lastIndex]);
+
+        cards.RemoveAt(lastIndex);
+
+        //  not done sorting cards
+        if(cards.Count > 0)
+            StartCoroutine(delayMovingCardsToDecks(type, cards));
+
+        //  done sorting cards
+        else {
+            foreach(var i in FindObjectsOfType<Deck>())
+                i.setCanStartPlaying(true);
+        }
     }
 }

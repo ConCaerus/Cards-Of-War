@@ -116,6 +116,24 @@ public class CardMovement : MonoBehaviour {
         }
     }
 
+
+    //  move to (0, 0)
+    //  usefull when trying to move to a deck pos but the card is a child of the deck
+    public void moveCardObjectToZero(GameObject ob) {
+        if(ob != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+
+            Vector2 randPos;
+            randPos.x = Random.Range(-allowedError, allowedError);
+            randPos.y = Random.Range(-allowedError, allowedError);
+
+            DOTween.Kill(ob, true);
+            ob.transform.DOMove(Vector2.zero + randPos, randTime, false);
+        }
+    }
+
     //  move resolved cards
 
     public void moveResolvedCardObjectsPlayerWins(GameObject a, GameObject b = null) {
@@ -235,6 +253,7 @@ public class CardMovement : MonoBehaviour {
             else if(!Input.GetMouseButton(0) && !GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>().getMouseOverCollider()) {
                 FindObjectOfType<CardBattleMechanics>().setPlayerPlayedCard(playerHeldCardObject);
                 playerHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+                FindObjectOfType<TableDetails>().moveDetailsAwayFromPosition(playerHeldCardObject.transform.position);
                 playerHeldCardObject = null;
             }
 
@@ -252,6 +271,7 @@ public class CardMovement : MonoBehaviour {
         if(opponentHeldCardObject != null) {
             opponentHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
             FindObjectOfType<CardBattleMechanics>().setOpponentPlayedCard(opponentHeldCardObject);
+            FindObjectOfType<TableDetails>().moveDetailsAwayFromPosition(opponentHeldCardObject.transform.position);
             opponentHeldCardObject = null;
         }
     }
