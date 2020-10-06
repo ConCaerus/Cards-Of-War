@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AddCardsCheat : Cheat {
-    const int cardsToAdd = 3;
+    const int cardsToAdd = 2;
 
     public override float getChargeAmount() {
-        return 5.0f;
+        return 3.0f;
     }
 
 
