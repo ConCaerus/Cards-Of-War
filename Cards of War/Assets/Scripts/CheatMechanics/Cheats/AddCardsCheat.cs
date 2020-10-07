@@ -9,6 +9,10 @@ public class AddCardsCheat : Cheat {
         return 3.0f;
     }
 
+    public override string getName() {
+        return "Add Cards Cheat";
+    }
+
 
     //  this cheat adds card to the user's deck
     public override void use() {

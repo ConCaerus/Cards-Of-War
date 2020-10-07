@@ -7,6 +7,9 @@ public class WinCheat : Cheat {
         return 2.5f;
     }
 
+    public override string getName() {
+        return "Win Cheat";
+    }
 
     //  this cheat makes the active card's value increase by 100, automatically winning
     public override void use() {
