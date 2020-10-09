@@ -11,6 +11,8 @@ public class CheatSelectCanvas : MonoBehaviour {
 
     [SerializeField] TextMeshProUGUI cheatNameText;
 
+    GameObject canvasThatWasBlocked = null;
+
     const float buffer = 3.0f;
     const float showHideTime = 0.15f;
 
@@ -22,13 +24,17 @@ public class CheatSelectCanvas : MonoBehaviour {
     }
 
 
-    public void showBackground() {
+    public void showBackground(GameObject thingThatWasBlocked = null) {
         background.gameObject.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), showHideTime);
+        canvasThatWasBlocked = thingThatWasBlocked;
         turnList(true);
     }
 
     public void hideBackground() {
         background.gameObject.transform.DOScale(Vector3.zero, showHideTime);
+        if(canvasThatWasBlocked != null)
+            canvasThatWasBlocked.gameObject.SetActive(true);
+        canvasThatWasBlocked = null;
     }
 
 
@@ -93,12 +99,8 @@ public class CheatSelectCanvas : MonoBehaviour {
 
     //  buttons
 
-    //  THIS FUNCTION ADD THE CHEAT TO THE PLAYER OBJECT FUCK YOU
     public void doneSelecting() {
-        //  remove this line if you want to have some fun
-        foreach(var i in GameObject.FindGameObjectWithTag("Player").GetComponents<Cheat>())
-            i.enabled = false;
-        cheats[selectedCheatIndex].GetComponent<Cheat>().addToPlayer();
+        cheats[selectedCheatIndex].GetComponent<Cheat>().setAsPlayerCheat();
 
         hideBackground();
     }

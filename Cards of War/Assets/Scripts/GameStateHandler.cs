@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateHandler : MonoBehaviour {
     private void Start() {
@@ -8,7 +9,7 @@ public class GameStateHandler : MonoBehaviour {
 
         dealCards();
         //startOpponentDialog();
-        lockInCheats();
+        setCheats();
     }
 
     public void dealCards() {
@@ -20,8 +21,15 @@ public class GameStateHandler : MonoBehaviour {
     }
 
 
-    public void lockInCheats() {
-        foreach(var i in FindObjectsOfType<CheatHandler>())
-            i.setCheat();
+    public void setCheats() {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>().setPlayerCheatToPlayerCheat();
+        GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>().setOpponentCheat();
+    }
+
+
+    //  end game
+
+    public void loadEndGameScreen() {
+        SceneManager.LoadSceneAsync("EndGameScreen");
     }
 }

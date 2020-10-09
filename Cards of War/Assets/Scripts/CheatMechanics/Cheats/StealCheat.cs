@@ -49,11 +49,4 @@ public class StealCheat : Cheat {
         
         return false;
     }
-
-
-
-    //  adds the script to the player
-    public override void addToPlayer() {
-        GameObject.FindGameObjectWithTag("Player").AddComponent<StealCheat>();
-    }
 }

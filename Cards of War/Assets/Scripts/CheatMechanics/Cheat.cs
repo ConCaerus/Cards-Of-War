@@ -8,7 +8,9 @@ public abstract class Cheat : MonoBehaviour {
 
     public abstract void use();
 
-    public abstract void addToPlayer();
+    public void setAsPlayerCheat() {
+        GameInformation.playerCheatIndex = FindObjectOfType<CheatIndex>().getCheatIndexOfType(this);
+    }
 
     public abstract bool canBeUsed();
 }

@@ -36,11 +36,4 @@ public class WinCheat : Cheat {
 
         return temp;
     }
-
-
-
-    //  adds the script to the player
-    public override void addToPlayer() {
-        GameObject.FindGameObjectWithTag("Player").AddComponent<WinCheat>();
-    }
 }

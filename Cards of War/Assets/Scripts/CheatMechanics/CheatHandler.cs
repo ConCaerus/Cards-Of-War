@@ -65,8 +65,17 @@ public class CheatHandler : MonoBehaviour {
         chargeAmount+=val;
     }
 
-    public void setCheat() {
-        activeCheat = gameObject.GetComponent<Cheat>();
+    public void setPlayerCheatToPlayerCheat() {
+        if(gameObject.tag == "Player") {
+            //  have fun fucking debugging this fucker of a line.
+            activeCheat = FindObjectOfType<CheatIndex>().addCheatToObject(gameObject, FindObjectOfType<CheatIndex>().getCheatFromIndex(GameInformation.playerCheatIndex));
+            Debug.Log(activeCheat);
+        }
+    }
+
+    public void setOpponentCheat() {
+        if(gameObject.tag == "Opponent")
+            activeCheat = GetComponent<Cheat>();
     }
 
 

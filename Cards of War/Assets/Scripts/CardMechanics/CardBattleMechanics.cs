@@ -142,18 +142,12 @@ public class CardBattleMechanics : MonoBehaviour {
 
 
     void resolveGame() {
-        int playerWinCount = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getNumOfCardsInPile();
-        int opponentWinCount = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getNumOfCardsInPile();
+        GameInformation.playerEndScore = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getNumOfCardsInPile();
+        GameInformation.opponentEndScore = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getNumOfCardsInPile();
+        int gameState = GameInformation.setGameResult();
 
-        //  player won
-        if(playerWinCount > opponentWinCount) {
-            GameObject.FindGameObjectWithTag("Opponent").GetComponent<DialogHandler>().startLoseDialog();
-        }
-
-        //  opponent won
-        if(opponentWinCount > playerWinCount) {
-            GameObject.FindGameObjectWithTag("Opponent").GetComponent<DialogHandler>().startWinDialog();
-        }
+        //  load the end game screen.
+        StartCoroutine(waitToLoadEndGameScreen());
     }
 
 
@@ -309,5 +303,11 @@ public class CardBattleMechanics : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
 
         resolveBattle();
+    }
+
+    IEnumerator waitToLoadEndGameScreen() {
+        yield return new WaitForSeconds(0.5f);
+
+        FindObjectOfType<GameStateHandler>().loadEndGameScreen();
     }
 }

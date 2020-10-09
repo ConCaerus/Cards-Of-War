@@ -33,10 +33,9 @@ public class AddCardsCheat : Cheat {
         return GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
     }
 
-    public override void addToPlayer() {
-        GameObject.FindGameObjectWithTag("Player").AddComponent<AddCardsCheat>();
-    }
 
+    //  I know this function scares you Connor
+    //  You'll be okay. I'm here for you
 
     IEnumerator animateCardsWithDelay(List<GameObject> cards) {
         int lastIndex = cards.Count - 1;

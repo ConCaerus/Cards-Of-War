@@ -29,11 +29,4 @@ public class AdditionalValueCheat : Cheat {
     public override bool canBeUsed() {
         return true;
     }
-
-
-
-    //  adds the script to the player
-    public override void addToPlayer() {
-        GameObject.FindGameObjectWithTag("Player").AddComponent<AdditionalValueCheat>();
-    }
 }
