@@ -7,6 +7,9 @@ public class AdditionalValueCheat : Cheat {
         return 2.0f;
     }
 
+    public override string getName() {
+        return "Add Value Cheat";
+    }
 
     //  This cheat adds one value to the value of the played card 
     public override void use() {

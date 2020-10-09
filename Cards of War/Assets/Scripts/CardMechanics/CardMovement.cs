@@ -57,7 +57,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(ob, true);
+            ob.transform.DOComplete();
             ob.transform.DOMove(playerDeckPos + randPos, randTime, false);
         }
     }
@@ -72,7 +72,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(ob, true);
+            ob.transform.DOComplete();
             ob.transform.DOMove(opponentDeckPos + randPos, randTime, false);
         }
     }
@@ -90,7 +90,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(ob, true);
+            ob.transform.DOComplete();
             ob.transform.DOMove(playerWinPilePos + randPos, randTime, false);
 
             if(!ob.GetComponent<CardObject>().getShowingface())
@@ -108,7 +108,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(ob, true);
+            ob.transform.DOComplete();
             ob.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
 
             if(!ob.GetComponent<CardObject>().getShowingface())
@@ -129,7 +129,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(ob, true);
+            ob.transform.DOComplete();
             ob.transform.DOMove(Vector2.zero + randPos, randTime, false);
         }
     }
@@ -146,7 +146,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(a, true);
+            a.transform.DOComplete();
             a.transform.DOMove(playerWinPilePos + randPos, randTime, false);
             //  moves the resolved cards over to the win pile script
             GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().addCardToPile(a);
@@ -166,7 +166,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(a, true);
+            a.transform.DOComplete();
             a.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
 
             //  moves the resolved cards over to the win pile script
@@ -187,7 +187,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-allowedError, allowedError);
             randPos.y = Random.Range(-allowedError, allowedError);
 
-            DOTween.Kill(p, true);
+            p.transform.DOComplete();
             p.transform.DOMove(playerWinPilePos + randPos, randTime, false);
 
             //  moves the resolved cards over to the win pile script
@@ -213,7 +213,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
             randPos.y = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
 
-            DOTween.Kill(opponentHeldCardObject, true);
+            opponentHeldCardObject.transform.DOComplete();
             opponentHeldCardObject.transform.DOMove(opponentPlayPos + randPos, randTime, false);
 
             recentOpponentPlayPos = opponentPlayPos + randPos;
@@ -233,7 +233,7 @@ public class CardMovement : MonoBehaviour {
             randPos.x = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
             randPos.y = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
 
-            DOTween.Kill(playerHeldCardObject, true);
+            playerHeldCardObject.transform.DOComplete();
             playerHeldCardObject.transform.DOMove(playerPlayPos + randPos, randTime, false);
         }
     }
@@ -285,12 +285,12 @@ public class CardMovement : MonoBehaviour {
 
     public void stopMovingPlayerHeldCardObject() {
         if(playerHeldCardObject != null)
-            DOTween.Kill(playerHeldCardObject, true);
+            playerHeldCardObject.transform.DOComplete();
     }
 
     public void stopMovingOpponentHeldCardObject() {
         if(opponentHeldCardObject != null)
-            DOTween.Kill(opponentHeldCardObject, true);
+            opponentHeldCardObject.transform.DOComplete();
     }
 
 

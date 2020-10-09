@@ -7,6 +7,9 @@ public class StealCheat : Cheat {
         return 2.0f;
     }
 
+    public override string getName() {
+        return "Steal Cheat";
+    }
 
     //  This cheat takes a card from the other player and adds it to the owner's deck
     public override void use() {

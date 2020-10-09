@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Cheat : MonoBehaviour {
     public abstract float getChargeAmount();
+    public abstract string getName();
 
     public abstract void use();
 
