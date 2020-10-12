@@ -5,7 +5,7 @@ using UnityEngine;
 public class AddCardsCheat : Cheat {
     const int cardsToAdd = 2;
 
-    public override float getChargeAmount() {
+    public override float getChargeWinAmount() {
         return 3.0f;
     }
 
@@ -26,11 +26,25 @@ public class AddCardsCheat : Cheat {
 
         //  animates and adds the cards
         StartCoroutine(animateCardsWithDelay(cards));
+
+        if(gameObject.tag == "Opponent")
+            GetComponent<DialogHandler>().startCheatDialog();
+
+        setChargeAmount(0.0f);
     }
 
 
     public override bool canBeUsed() {
         return GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
+    }
+
+    public override bool useCondition() {
+        if(chargeAmount >= filledChargeAmount) {
+            if(gameObject.tag == "Player")
+                return Input.GetKeyDown(KeyCode.Space);
+            return true;
+        }
+        return false;
     }
 
 

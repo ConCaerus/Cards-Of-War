@@ -9,7 +9,6 @@ public class GameStateHandler : MonoBehaviour {
 
         dealCards();
         //startOpponentDialog();
-        setCheats();
     }
 
     public void dealCards() {
@@ -18,12 +17,6 @@ public class GameStateHandler : MonoBehaviour {
 
     public void startOpponentDialog() {
         GameObject.FindGameObjectWithTag("Opponent").GetComponent<DialogHandler>().startIntroDialog();
-    }
-
-
-    public void setCheats() {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>().setPlayerCheatToPlayerCheat();
-        GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>().setOpponentCheat();
     }
 
 

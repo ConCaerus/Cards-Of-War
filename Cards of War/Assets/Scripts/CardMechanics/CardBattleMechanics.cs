@@ -133,10 +133,6 @@ public class CardBattleMechanics : MonoBehaviour {
         //  resets the temp card value mods
         tempPlayerCardValueMod = 0;
         tempOpponentCardValueMod = 0;
-
-
-        //  tells the opponent to use their cheat if they want to
-        GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>().opponentCheatUseHandler();
     }
 
 
@@ -197,31 +193,31 @@ public class CardBattleMechanics : MonoBehaviour {
     //  modify cheat charges based on the outcome of the battle
 
     void modifyCheatValsPlayerWins() {
-        CheatHandler playerCH = GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>();
+        var playerCH = GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>();
         if(playerCH != null)
             playerCH.addWinChargeAmount();
 
-        CheatHandler opponentCH = GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>();
+        var opponentCH = GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>();
         if(opponentCH != null)
             opponentCH.addLoseChargeAmount();
     }
 
     void modifyCheatValsOpponentWins() {
-        CheatHandler playerCH = GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>();
+        var playerCH = GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>();
         if(playerCH != null)
             playerCH.addLoseChargeAmount();
 
-        CheatHandler opponentCH = GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>();
+        var opponentCH = GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>();
         if(opponentCH != null)
             opponentCH.addWinChargeAmount();
     }
 
     void modifyCheatValsDraw() {
-        CheatHandler playerCH = GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>();
+        var playerCH = GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>();
         if(playerCH != null)
             playerCH.addLoseChargeAmount();
 
-        CheatHandler opponentCH = GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>();
+        var opponentCH = GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>();
         if(opponentCH != null)
             opponentCH.addLoseChargeAmount();
     }

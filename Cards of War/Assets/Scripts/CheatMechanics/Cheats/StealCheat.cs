@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StealCheat : Cheat {
-    public override float getChargeAmount() {
+    public override float getChargeWinAmount() {
         return 2.0f;
     }
 
@@ -34,7 +34,11 @@ public class StealCheat : Cheat {
 
                 FindObjectOfType<CardMovement>().stopMovingOpponentHeldCardObject();
             }
+
+            GetComponent<DialogHandler>().startCheatDialog();
         }
+
+        setChargeAmount(0.0f);
     }
 
 
@@ -47,6 +51,12 @@ public class StealCheat : Cheat {
             return GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getNumOfCardsInPile() > 0 &&
                     GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
         
+        return false;
+    }
+
+    //  used when the player takes a card from the opponent deck
+    //  oh mate, you're ganna need a thicc cup of joe for this fucking doosey
+    public override bool useCondition() {
         return false;
     }
 }

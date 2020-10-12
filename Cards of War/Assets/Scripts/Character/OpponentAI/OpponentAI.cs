@@ -4,9 +4,12 @@ using UnityEngine;
 
 public abstract class OpponentAI : MonoBehaviour {
 
-    //  calls playCard function in the deck script
     public void playCard() {
         GetComponentInChildren<Deck>().playCard();
+    }
+
+    public void useCheat() {
+        GetComponent<Cheat>().use();
     }
 
     public bool cardInPlay() {

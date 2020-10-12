@@ -15,10 +15,10 @@ public class CheatCanvas : MonoBehaviour {
         playerCheatSlider.value = 0.0f;
         opponentCheatSlider.value = 0.0f;
 
-        if(GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>() == null)
+        if(GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>() == null)
             playerCheatSlider.enabled = false;
 
-        if(GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>() == null)
+        if(GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>() == null)
             opponentCheatSlider.enabled = false;
     }
 
@@ -29,12 +29,12 @@ public class CheatCanvas : MonoBehaviour {
 
     void changeCheatSliderValues() {
         if(playerCheatSlider.enabled == true) {
-            float target = GameObject.FindGameObjectWithTag("Player").GetComponent<CheatHandler>().getCheatChargeAmount();
+            float target = GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getChargeAmount();
             playerCheatSlider.value = Mathf.Lerp(playerCheatSlider.value, target, speed * Time.deltaTime);
         }
 
         if(opponentCheatSlider == true) {
-            float target = GameObject.FindGameObjectWithTag("Opponent").GetComponent<CheatHandler>().getCheatChargeAmount();
+            float target = GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>().getChargeAmount();
             opponentCheatSlider.value = Mathf.Lerp(opponentCheatSlider.value, target, speed * Time.deltaTime);
         }
     }

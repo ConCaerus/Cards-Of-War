@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CheatHandler : MonoBehaviour {
+    /*
     float chargeAmount = 0.0f;
 
     Cheat activeCheat;
@@ -83,5 +84,5 @@ public class CheatHandler : MonoBehaviour {
 
     public float getCheatChargeAmount() {
         return chargeAmount;
-    }
+    } */
 }

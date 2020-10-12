@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WinCheat : Cheat {
-    public override float getChargeAmount() {
+    public override float getChargeWinAmount() {
         return 2.5f;
     }
 
@@ -22,9 +22,11 @@ public class WinCheat : Cheat {
         else if(gameObject.tag == "Opponent") {
             FindObjectOfType<CardBattleMechanics>().setTempOpponentCardValueMod(FindObjectOfType<CardBattleMechanics>().getTempOpponentCardValueMod() + 100);
         }
+
+        setChargeAmount(0.0f);
     }
 
-    //  can be used anytime
+
     public override bool canBeUsed() {
         bool temp = (GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0 ||
                         FindObjectOfType<CardMovement>().getOpponentHeldCardObject() != null ||
@@ -35,5 +37,14 @@ public class WinCheat : Cheat {
                         (FindObjectOfType<CardBattleMechanics>().getPlayerPlayedCard() != null && !FindObjectOfType<CardBattleMechanics>().getShown()));
 
         return temp;
+    }
+
+    public override bool useCondition() {
+        if(chargeAmount >= filledChargeAmount) {
+            if(gameObject.tag == "Player")
+                return Input.GetKeyDown(KeyCode.Space);
+            return true;
+        }
+        return false;
     }
 }
