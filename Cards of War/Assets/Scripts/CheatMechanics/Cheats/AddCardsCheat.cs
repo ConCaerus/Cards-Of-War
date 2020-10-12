@@ -35,7 +35,9 @@ public class AddCardsCheat : Cheat {
 
 
     public override bool canBeUsed() {
-        return GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
+        if(gameObject.tag == "Player" || gameObject.tag == "Opponent")
+            return GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
+        return false;
     }
 
     public override bool useCondition() {

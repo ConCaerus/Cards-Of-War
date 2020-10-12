@@ -5,7 +5,16 @@ using UnityEngine;
 public class WinPile : MonoBehaviour {
     List<GameObject> cardsInPile = new List<GameObject>();
 
+    bool mouseDown = false;
 
+
+    //  mouse is trying to drag a card from this win pile
+    private void OnMouseDown() {
+        mouseDown = true;
+    }
+    private void OnMouseUp() {
+        mouseDown = false;
+    }
 
 
     void setSortingOrderForCardsInPile() {
@@ -40,5 +49,9 @@ public class WinPile : MonoBehaviour {
 
     public Vector2 getWinPilePos() {
         return transform.position;
+    }
+
+    public bool getMouseDown() {
+        return mouseDown;
     }
 }

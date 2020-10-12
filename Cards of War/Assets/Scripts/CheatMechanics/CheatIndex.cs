@@ -30,6 +30,7 @@ public class CheatIndex : MonoBehaviour {
     }
 
 
+    //  didn't want to do it this way but fuck it
     public Cheat addCheatToObject(GameObject ob, Cheat cheat) {
         //  Add cards cheat
         if(cheat.getName() == GetComponent<AddCardsCheat>().getName())

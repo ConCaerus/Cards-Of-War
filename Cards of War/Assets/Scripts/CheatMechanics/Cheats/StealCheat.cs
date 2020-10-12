@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StealCheat : Cheat {
     public override float getChargeWinAmount() {
-        return 2.0f;
+        return 2.5f;
     }
 
     public override string getName() {
@@ -13,18 +13,23 @@ public class StealCheat : Cheat {
 
     //  This cheat takes a card from the other player and adds it to the owner's deck
     public override void use() {
-        //  player used cheat
+        //  player used cheat 
         if(gameObject.tag == "Player") {
-            var stolenCard = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().takeCardFromPile();
+            GameObject stolenCard = null;
+            foreach(var i in FindObjectsOfType<WinPile>()) {
+                if(i.getMouseDown()) {
+                    stolenCard = i.takeCardFromPile();
+                    break;
+                }
+            }
 
-            if(stolenCard != null) {
-                gameObject.GetComponentInChildren<Deck>().addCardToDeck(stolenCard);
-
-                FindObjectOfType<CardMovement>().stopMovingPlayerHeldCardObject();
-                FindObjectOfType<CardMovement>().moveCardObjectToPlayerDeckPos(stolenCard);
+            if(stolenCard != null && FindObjectOfType<CardMovement>().getPlayerHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getPlayerPlayedCard() == null) {
+                stolenCard.GetComponent<CardObjectShadow>().showShadow();
+                FindObjectOfType<CardMovement>().setPlayerHeldCardObject(stolenCard);
             }
         }
 
+        /*
         //  opponent used cheat
         else if(gameObject.tag == "Opponent") {
             var stolenCard = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().takeCardFromPile();
@@ -36,7 +41,7 @@ public class StealCheat : Cheat {
             }
 
             GetComponent<DialogHandler>().startCheatDialog();
-        }
+        } */
 
         setChargeAmount(0.0f);
     }
@@ -55,8 +60,13 @@ public class StealCheat : Cheat {
     }
 
     //  used when the player takes a card from the opponent deck
-    //  oh mate, you're ganna need a thicc cup of joe for this fucking doosey
     public override bool useCondition() {
+        if(chargeAmount >= filledChargeAmount) {
+            foreach(var i in FindObjectsOfType<WinPile>()) {
+                if(i.getMouseDown())
+                    return true;
+            }
+        }
         return false;
     }
 }

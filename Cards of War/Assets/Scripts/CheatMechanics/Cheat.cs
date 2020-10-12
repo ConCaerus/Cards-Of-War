@@ -6,6 +6,24 @@ public abstract class Cheat : MonoBehaviour {
     public float chargeAmount;
     public const float filledChargeAmount = 10.0f;
 
+    private void Awake() {
+        //  can add cheat to player
+        if(gameObject.tag == "Player" && GameInformation.playerCheatIndex != -1) {
+            //  this cheat isn't the correct cheat
+            var chosenCheat = FindObjectOfType<CheatIndex>().getCheatFromIndex(GameInformation.playerCheatIndex);
+            if(getName() != chosenCheat.getName()) {
+                var temp = FindObjectOfType<CheatIndex>().addCheatToObject(gameObject, chosenCheat);
+                temp.enabled = true;
+                Destroy(this);
+            }
+        }
+    }
+
+    private void Update() {
+        if(canBeUsed() && useCondition())
+            use();
+    }
+
     public abstract float getChargeWinAmount();
     public float getChargeAmount() {
         return chargeAmount;

@@ -9,6 +9,9 @@ public static class GameInformation {
     public static int playerEndScore = -1;
     public static int opponentEndScore = -1;
 
+    //  NOTE: I must've been high or some shit when i wrote the logic behind this one varible
+    //          I'm so fucking sorry Connor.
+    //  used to find cheats in the cheatIndex script
     public static int playerCheatIndex = -1;
 
 

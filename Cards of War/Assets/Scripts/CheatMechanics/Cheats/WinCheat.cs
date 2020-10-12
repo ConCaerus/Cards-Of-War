@@ -28,6 +28,7 @@ public class WinCheat : Cheat {
 
 
     public override bool canBeUsed() {
+        if(GameObject.FindGameObjectWithTag("Player") == null) return false;
         bool temp = (GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0 ||
                         FindObjectOfType<CardMovement>().getOpponentHeldCardObject() != null ||
                         (FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard() != null && !FindObjectOfType<CardBattleMechanics>().getShown()))

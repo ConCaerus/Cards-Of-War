@@ -220,25 +220,8 @@ public class CardMovement : MonoBehaviour {
         }
     }
 
-    //  if I ever have a player auto play feature. (gave up cause onMouseDrag doesn't detect right clicks)
-    void movePlayerHeldCardToPlayPos() {
-        if(playerHeldCardObject != null) {
-            float playerHeldCardAllowedError = 0.5f;
-            float randTime = 0.5f; //   set to the desired norm time;
-
-            //  don't use player allowed error here, possibility for instant movement
-            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
-
-            Vector2 randPos;
-            randPos.x = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
-            randPos.y = Random.Range(-playerHeldCardAllowedError, playerHeldCardAllowedError);
-
-            playerHeldCardObject.transform.DOComplete();
-            playerHeldCardObject.transform.DOMove(playerPlayPos + randPos, randTime, false);
-        }
-    }
-
     //  move held cards
+    //  meat of this entire fucking 300 lines of pain
 
     void moveHeldCardObjects() {
         //  player card code
