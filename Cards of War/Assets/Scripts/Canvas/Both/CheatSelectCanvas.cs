@@ -31,7 +31,7 @@ public class CheatSelectCanvas : MonoBehaviour {
     }
 
     public void hideBackground() {
-        background.gameObject.transform.DOScale(Vector3.zero, showHideTime);
+        background.gameObject.transform.DOScale(new Vector3(0.0f, 1.0f, 0.0f), showHideTime);
         if(canvasThatWasBlocked != null)
             canvasThatWasBlocked.gameObject.SetActive(true);
         canvasThatWasBlocked = null;

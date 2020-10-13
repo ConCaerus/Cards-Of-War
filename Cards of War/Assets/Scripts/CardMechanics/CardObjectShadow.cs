@@ -71,9 +71,10 @@ public class CardObjectShadow : MonoBehaviour {
         shown = true;
     }
 
-    void destroyShadow() {
+    public void destroyShadow() {
         Destroy(shadow);
         shadow = null;
+        shown = false;
     }
 
 

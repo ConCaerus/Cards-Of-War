@@ -260,6 +260,8 @@ public class CardMovement : MonoBehaviour {
                     if(playerHeldCardObjectOrigin.GetComponent<Deck>().getMouseOverCollider()) {
                         playerHeldCardObjectOrigin.GetComponent<Deck>().addCardToDeck(playerHeldCardObject);
                         playerHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+                        playerHeldCardObject = null;
+                        playerHeldCardObjectOrigin = null;
                     }
                 }
 
@@ -278,22 +280,29 @@ public class CardMovement : MonoBehaviour {
 
                         //  this because no other thing leads to the origin being a win pile
                         GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().setChargeAmount(GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getFilledChargeAmount());
+                        playerHeldCardObject = null;
+                        playerHeldCardObjectOrigin = null;
                     }
 
                     //  player wants to add card into other winPile
                     else if(other.getMouseOver()) {
                         playerHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
                         other.addCardToPile(playerHeldCardObject);
+                        playerHeldCardObject = null;
+                        playerHeldCardObjectOrigin = null;
                     }
                 }
                 
-                
-                //  I don't fucking know
-                else
-                    return;
-
-                playerHeldCardObject = null;
-                playerHeldCardObjectOrigin = null;
+                //  player is trying to add their card to a spot they can't
+                //  two options here: add card back to deck, or keep card on mouse
+                //                  I went with the deck one
+                if(playerHeldCardObject != null) {
+                    moveCardObjectToPlayerDeckPos(playerHeldCardObject);
+                    playerHeldCardObjectOrigin.GetComponent<Deck>().addCardToDeck(playerHeldCardObject);
+                    playerHeldCardObject.GetComponent<CardObjectShadow>().destroyShadow();
+                    playerHeldCardObject = null;
+                    playerHeldCardObjectOrigin = null;
+                }
             }
         }
     }
