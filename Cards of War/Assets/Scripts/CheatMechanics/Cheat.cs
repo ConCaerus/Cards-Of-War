@@ -28,6 +28,9 @@ public abstract class Cheat : MonoBehaviour {
     public float getChargeAmount() {
         return chargeAmount;
     }
+    public float getFilledChargeAmount() {
+        return filledChargeAmount;
+    }
     public abstract string getName();
 
     public abstract void use();

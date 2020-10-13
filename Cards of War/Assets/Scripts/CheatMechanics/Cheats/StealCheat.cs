@@ -11,14 +11,19 @@ public class StealCheat : Cheat {
         return "Steal Cheat";
     }
 
+    private void LateUpdate() {
+    }
+
     //  This cheat takes a card from the other player and adds it to the owner's deck
     public override void use() {
         //  player used cheat 
         if(gameObject.tag == "Player") {
             GameObject stolenCard = null;
+            WinPile pileStolenFrom = null;
             foreach(var i in FindObjectsOfType<WinPile>()) {
                 if(i.getMouseDown()) {
                     stolenCard = i.takeCardFromPile();
+                    pileStolenFrom = i;
                     break;
                 }
             }
@@ -26,6 +31,7 @@ public class StealCheat : Cheat {
             if(stolenCard != null && FindObjectOfType<CardMovement>().getPlayerHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getPlayerPlayedCard() == null) {
                 stolenCard.GetComponent<CardObjectShadow>().showShadow();
                 FindObjectOfType<CardMovement>().setPlayerHeldCardObject(stolenCard);
+                FindObjectOfType<CardMovement>().setPlayerHeldCardObjectOrigin(pileStolenFrom.gameObject);
             }
         }
 

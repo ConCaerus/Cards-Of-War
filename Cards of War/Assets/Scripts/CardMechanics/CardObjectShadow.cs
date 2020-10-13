@@ -54,6 +54,9 @@ public class CardObjectShadow : MonoBehaviour {
     void moveToSetPos() {
         gameObject.transform.DOMove(setPos, duration);
         shadow.transform.DOMove(transform.position, duration);
+
+        if(gameObject.transform.position == setPos)
+            destroyShadow();
     }
 
 
@@ -68,7 +71,7 @@ public class CardObjectShadow : MonoBehaviour {
         shown = true;
     }
 
-    public void destroyShadow() {
+    void destroyShadow() {
         Destroy(shadow);
         shadow = null;
     }

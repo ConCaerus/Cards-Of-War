@@ -5,7 +5,7 @@ using UnityEngine;
 public class WinPile : MonoBehaviour {
     List<GameObject> cardsInPile = new List<GameObject>();
 
-    bool mouseDown = false;
+    bool mouseDown = false, mouseOver = false;
 
 
     //  mouse is trying to drag a card from this win pile
@@ -14,6 +14,13 @@ public class WinPile : MonoBehaviour {
     }
     private void OnMouseUp() {
         mouseDown = false;
+    }
+
+    private void OnMouseEnter() {
+        mouseOver = true;
+    }
+    private void OnMouseExit() {
+        mouseOver = false;
     }
 
 
@@ -25,15 +32,15 @@ public class WinPile : MonoBehaviour {
 
 
     public void addCardToPile(GameObject card, GameObject other = null) {
+        card.GetComponent<CardObjectShadow>().hideShadow();
         cardsInPile.Add(card);
         card.transform.SetParent(transform);
 
-        if(other != null) {
-            cardsInPile.Add(other);
-            other.transform.SetParent(transform);
-        }
 
         setSortingOrderForCardsInPile();
+
+        if(other != null)
+            addCardToPile(other);
     }
 
     public GameObject takeCardFromPile() {
@@ -53,5 +60,8 @@ public class WinPile : MonoBehaviour {
 
     public bool getMouseDown() {
         return mouseDown;
+    }
+    public bool getMouseOver() {
+        return mouseOver;
     }
 }

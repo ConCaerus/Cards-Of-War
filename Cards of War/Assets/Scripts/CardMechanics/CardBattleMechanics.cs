@@ -29,10 +29,6 @@ public class CardBattleMechanics : MonoBehaviour {
             opponentPlayedCard.GetComponent<CardObjectShadow>().hideShadow();
 
             if(advanceBattle()) {
-                //  stop card shadows
-                playerPlayedCard.GetComponent<CardObjectShadow>().destroyShadow();
-                opponentPlayedCard.GetComponent<CardObjectShadow>().destroyShadow();
-
                 showPlayerPlayedCard();
                 showOpponentPlayedCard();
 
