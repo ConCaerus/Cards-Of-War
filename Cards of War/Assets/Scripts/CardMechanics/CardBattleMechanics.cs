@@ -24,9 +24,7 @@ public class CardBattleMechanics : MonoBehaviour {
     //  shows the card faces if the player wants to advance the battle
     void managePlayedCardsShowConditions() {
         //  the player has played a card
-        if(playerPlayedCard != null) {
-            //  the player wants to show their card
-            opponentPlayedCard.GetComponent<CardObjectShadow>().hideShadow();
+        if(playerPlayedCard != null && opponentPlayedCard != null) {
 
             if(advanceBattle()) {
                 showPlayerPlayedCard();
@@ -53,8 +51,8 @@ public class CardBattleMechanics : MonoBehaviour {
     }
 
 
-    bool advanceBattle() {
-        return Input.GetMouseButtonDown(0);
+    public bool advanceBattle() {
+        return Input.GetMouseButtonDown(1);
     }
 
 
@@ -224,11 +222,13 @@ public class CardBattleMechanics : MonoBehaviour {
     //  Played Cards
     public void setPlayerPlayedCard(GameObject card) {
         playerPlayedCard = card;
+        playerPlayedCard.GetComponent<Collider2D>().enabled = true;
         playerPlayedCard.GetComponent<SpriteRenderer>().sortingOrder = 1;
     }
 
     public void setOpponentPlayedCard(GameObject card) {
         opponentPlayedCard = card;
+        opponentPlayedCard.GetComponent<Collider2D>().enabled = true;
         opponentPlayedCard.GetComponent<SpriteRenderer>().sortingOrder = 1;
     }
 

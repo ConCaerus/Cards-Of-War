@@ -29,7 +29,7 @@ public class StealCheat : Cheat {
             }
 
             if(stolenCard != null && FindObjectOfType<CardMovement>().getPlayerHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getPlayerPlayedCard() == null) {
-                stolenCard.GetComponent<CardObjectShadow>().showShadow();
+                stolenCard.GetComponent<ObjectShadow>().showShadow();
                 FindObjectOfType<CardMovement>().setPlayerHeldCardObject(stolenCard);
                 FindObjectOfType<CardMovement>().setPlayerHeldCardObjectOrigin(pileStolenFrom.gameObject);
             }
@@ -52,27 +52,41 @@ public class StealCheat : Cheat {
         setChargeAmount(0.0f);
     }
 
-
-    //  cannot be used if the other player does not have any cards in their win pile
-    public override bool canBeUsed() {
-        if(gameObject.tag == "Player")
-            return GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getNumOfCardsInPile() > 0 &&
-                    GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
-        else if(gameObject.tag == "Opponent")
-            return GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getNumOfCardsInPile() > 0 &&
-                    GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
-        
-        return false;
+    public override void showCanUse() {
+        //  does nothing
     }
+
+    public override void hideCanUse() {
+        //  does nothing
+    }
+
+
 
     //  used when the player takes a card from the opponent deck
     public override bool useCondition() {
-        if(chargeAmount >= filledChargeAmount) {
+        //  returns false if not charges
+        if(!getCharged()) 
+            return false;
+
+        //  returns false if not enough cards for cheat to be used
+        if(gameObject.tag == "Player") {
+            if(GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getNumOfCardsInPile() <= 0 || gameObject.GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
+                return false;
+        }
+        else if(gameObject.tag == "Opponent") {
+            if(GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getNumOfCardsInPile() <= 0 || gameObject.GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
+                return false;
+        }
+
+        //  player is taking a card from a win pile
+        if(gameObject.tag == "Player") {
             foreach(var i in FindObjectsOfType<WinPile>()) {
                 if(i.getMouseDown())
                     return true;
             }
         }
+        else if(gameObject.tag == "Opponent") 
+            return gameObject.GetComponent<OpponentAI>().wantsToUseCheat;
         return false;
     }
 }

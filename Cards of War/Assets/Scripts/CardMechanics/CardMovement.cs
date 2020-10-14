@@ -246,7 +246,7 @@ public class CardMovement : MonoBehaviour {
             //  send it over to the battle mechanics script
             else if(!Input.GetMouseButton(0) && !overDeck && !overWinPile) {
                 FindObjectOfType<CardBattleMechanics>().setPlayerPlayedCard(playerHeldCardObject);
-                playerHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+                playerHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
                 FindObjectOfType<TableDetails>().moveDetailsAwayFromPosition(playerHeldCardObject.transform.position);
                 playerHeldCardObject = null;
                 playerHeldCardObjectOrigin = null;
@@ -259,7 +259,7 @@ public class CardMovement : MonoBehaviour {
                 if(playerHeldCardObjectOrigin.GetComponent<Deck>() != null) {
                     if(playerHeldCardObjectOrigin.GetComponent<Deck>().getMouseOverCollider()) {
                         playerHeldCardObjectOrigin.GetComponent<Deck>().addCardToDeck(playerHeldCardObject);
-                        playerHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+                        playerHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
                         playerHeldCardObject = null;
                         playerHeldCardObjectOrigin = null;
                     }
@@ -276,7 +276,7 @@ public class CardMovement : MonoBehaviour {
                     //  player wants to put card back into origin
                     if(playerHeldCardObjectOrigin.GetComponent<WinPile>().getMouseOver()) {
                         playerHeldCardObjectOrigin.GetComponent<WinPile>().addCardToPile(playerHeldCardObject);
-                        playerHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+                        playerHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
 
                         //  this because no other thing leads to the origin being a win pile
                         GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().setChargeAmount(GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getFilledChargeAmount());
@@ -286,7 +286,7 @@ public class CardMovement : MonoBehaviour {
 
                     //  player wants to add card into other winPile
                     else if(other.getMouseOver()) {
-                        playerHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+                        playerHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
                         other.addCardToPile(playerHeldCardObject);
                         playerHeldCardObject = null;
                         playerHeldCardObjectOrigin = null;
@@ -299,7 +299,7 @@ public class CardMovement : MonoBehaviour {
                 if(playerHeldCardObject != null) {
                     moveCardObjectToPlayerDeckPos(playerHeldCardObject);
                     playerHeldCardObjectOrigin.GetComponent<Deck>().addCardToDeck(playerHeldCardObject);
-                    playerHeldCardObject.GetComponent<CardObjectShadow>().destroyShadow();
+                    playerHeldCardObject.GetComponent<ObjectShadow>().destroyShadow();
                     playerHeldCardObject = null;
                     playerHeldCardObjectOrigin = null;
                 }
@@ -309,7 +309,7 @@ public class CardMovement : MonoBehaviour {
 
     void sendOpponentCardObject() {
         if(opponentHeldCardObject != null) {
-            opponentHeldCardObject.GetComponent<CardObjectShadow>().hideShadow();
+            opponentHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
             FindObjectOfType<CardBattleMechanics>().setOpponentPlayedCard(opponentHeldCardObject);
             FindObjectOfType<TableDetails>().moveDetailsAwayFromPosition(opponentHeldCardObject.transform.position);
             opponentHeldCardObject = null;

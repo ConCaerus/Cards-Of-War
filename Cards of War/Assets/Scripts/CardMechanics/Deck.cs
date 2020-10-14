@@ -31,6 +31,7 @@ public class Deck : MonoBehaviour {
         if(cardObject.GetComponent<CardObject>().getShowingface())
             cardObject.GetComponent<CardObject>().hideCardFace();
 
+        cardObject.GetComponent<Collider2D>().enabled = false;
         cardObjectsInDeck.Add(cardObject);
         cardObject.transform.SetParent(gameObject.transform);
     }
@@ -45,7 +46,7 @@ public class Deck : MonoBehaviour {
                 //  checks if card is already in play
                 if(FindObjectOfType<CardMovement>().getPlayerHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getPlayerPlayedCard() == null) {
                     var card = takeCardInDeck();
-                    card.GetComponent<CardObjectShadow>().showShadow();
+                    card.GetComponent<ObjectShadow>().showShadow();
                     FindObjectOfType<CardMovement>().setPlayerHeldCardObject(card);
                     FindObjectOfType<CardMovement>().setPlayerHeldCardObjectOrigin(gameObject);
                 }
@@ -60,7 +61,7 @@ public class Deck : MonoBehaviour {
                 //  checks if card is already in play
                 if(FindObjectOfType<CardMovement>().getOpponentHeldCardObject() == null && FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard() == null) {
                     var card = takeCardInDeck();
-                    card.GetComponent<CardObjectShadow>().showShadow();
+                    card.GetComponent<ObjectShadow>().showShadow();
                     FindObjectOfType<CardMovement>().setOpponentHeldCardObject(card);
                     FindObjectOfType<CardMovement>().moveOpponentHeldCardToPlayPos();
                 }
