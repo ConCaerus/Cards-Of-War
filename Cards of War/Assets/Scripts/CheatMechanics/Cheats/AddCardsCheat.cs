@@ -34,18 +34,26 @@ public class AddCardsCheat : Cheat {
     }
 
 
-    public override bool canBeUsed() {
-        if(gameObject.tag == "Player" || gameObject.tag == "Opponent")
-            return GetComponentInChildren<Deck>().getNumOfCardsInDeck() > 0;
-        return false;
+    public override void showCanUse() {
     }
 
+    public override void hideCanUse() {
+    }
+
+
     public override bool useCondition() {
-        if(chargeAmount >= filledChargeAmount) {
-            if(gameObject.tag == "Player")
-                return Input.GetKeyDown(KeyCode.Space);
-            return true;
+        if(!getCharged())
+            return false;
+
+        if(gameObject.tag == "Player" || gameObject.tag == "Opponent") {
+            if(GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
+                return false;
         }
+
+        if(gameObject.tag == "Player")
+            return Input.GetKeyDown(KeyCode.Space);
+        else if(gameObject.tag == "Opponent")
+            return GetComponent<OpponentAI>().wantsToUseCheat;
         return false;
     }
 

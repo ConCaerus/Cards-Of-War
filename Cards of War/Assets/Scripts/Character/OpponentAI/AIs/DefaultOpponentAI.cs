@@ -10,8 +10,10 @@ public class DefaultOpponentAI : OpponentAI {
             playCard();
 
         var cheat = GetComponent<Cheat>();
-        if(cheat.canBeUsed() && cheat.useCondition()) {
-            cheat.use();
+        if(cheat != null) {
+            if(cheat.getCharged()) {
+                wantsToUseCheat = true;
+            }
         }
     }
 }

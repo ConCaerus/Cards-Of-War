@@ -28,12 +28,18 @@ public class AdditionalValueCheat : Cheat {
     }
 
 
-    //  can be used at all times
-    public override bool canBeUsed() {
-        return true;
+    public override void showCanUse() {
+        //  does nothing
     }
 
+    public override void hideCanUse() {
+        //  does nothing
+    }
+
+
     public override bool useCondition() {
+        if(!getCharged())
+            return false;
         if(chargeAmount >= filledChargeAmount) {
             if(gameObject.tag == "Player")
                 return Input.GetKeyDown(KeyCode.Space);

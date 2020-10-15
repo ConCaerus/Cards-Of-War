@@ -21,8 +21,12 @@ public abstract class Cheat : MonoBehaviour {
     }
 
     private void Update() {
-        if(canBeUsed() && useCondition())
+        if(useCondition())
             use();
+        if(getCharged())
+            showCanUse();
+        else 
+            hideCanUse();
     }
 
     public abstract float getChargeWinAmount();
@@ -32,15 +36,19 @@ public abstract class Cheat : MonoBehaviour {
     public float getFilledChargeAmount() {
         return filledChargeAmount;
     }
+    public bool getCharged() {
+        return chargeAmount >= filledChargeAmount;
+    }
     public abstract string getName();
 
     public abstract void use();
+    public abstract void showCanUse();
+    public abstract void hideCanUse();
 
     public void setAsPlayerCheat() {
         GameInformation.playerCheatIndex = FindObjectOfType<CheatIndex>().getCheatIndexOfType(this);
     }
 
-    public abstract bool canBeUsed();
     public abstract bool useCondition();
 
 

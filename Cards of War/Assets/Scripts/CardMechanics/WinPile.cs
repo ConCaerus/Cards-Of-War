@@ -27,12 +27,17 @@ public class WinPile : MonoBehaviour {
     void setSortingOrderForCardsInPile() {
         for(int i = 0; i < cardsInPile.Count - 1; i++) {
             cardsInPile[i].GetComponent<SpriteRenderer>().sortingOrder = -(cardsInPile.Count - 1 - i);
+            if(cardsInPile[i].GetComponentInChildren<SpriteRenderer>() != null) {
+                foreach(var sr in cardsInPile[i].GetComponentsInChildren<SpriteRenderer>())
+                    sr.sortingOrder = cardsInPile[i].GetComponent<SpriteRenderer>().sortingOrder + 1;
+            }
         }
     }
 
 
     public void addCardToPile(GameObject card, GameObject other = null) {
-        card.GetComponent<CardObjectShadow>().hideShadow();
+        card.GetComponent<ObjectShadow>().hideShadow();
+        card.GetComponent<Collider2D>().enabled = false;
         cardsInPile.Add(card);
         card.transform.SetParent(transform);
 

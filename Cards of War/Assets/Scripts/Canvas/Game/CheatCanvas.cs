@@ -33,7 +33,7 @@ public class CheatCanvas : MonoBehaviour {
             playerCheatSlider.value = Mathf.Lerp(playerCheatSlider.value, target, speed * Time.deltaTime);
         }
 
-        if(opponentCheatSlider == true) {
+        if(opponentCheatSlider.enabled == true) {
             float target = GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>().getChargeAmount();
             opponentCheatSlider.value = Mathf.Lerp(opponentCheatSlider.value, target, speed * Time.deltaTime);
         }

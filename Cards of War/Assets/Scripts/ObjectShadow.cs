@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 
-public class CardObjectShadow : MonoBehaviour {
+public class ObjectShadow : MonoBehaviour {
     GameObject shadow = null;
 
     bool shown = false;
@@ -14,11 +14,6 @@ public class CardObjectShadow : MonoBehaviour {
     Vector3 offset = new Vector3(-0.25f, -0.25f);
     Vector3 setPos;
 
-    private void Awake() {
-        hideShadow();
-        shadow = null;
-    }
-
 
     private void Update() {
         if(shadow != null)
@@ -27,7 +22,7 @@ public class CardObjectShadow : MonoBehaviour {
 
 
     void createShadow() {
-        shadow = new GameObject("Card Shadow");
+        shadow = new GameObject("Shadow");
 
         var sr = shadow.AddComponent<SpriteRenderer>();
         sr.sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
