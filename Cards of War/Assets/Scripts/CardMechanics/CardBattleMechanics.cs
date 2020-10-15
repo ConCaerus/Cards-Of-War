@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CardBattleMechanics : MonoBehaviour {
     GameObject playerPlayedCard, opponentPlayedCard;
@@ -87,6 +88,13 @@ public class CardBattleMechanics : MonoBehaviour {
     void resolveBattle() {
         int playerVal = playerPlayedCard.GetComponent<CardObject>().getCard().value + playerCardValueMod + tempPlayerCardValueMod;
         int opponentVal = opponentPlayedCard.GetComponent<CardObject>().getCard().value + opponentCardValueMod + tempOpponentCardValueMod;
+        
+        playerPlayedCard.transform.DOComplete();
+        foreach(var i in playerPlayedCard.GetComponentsInChildren<Transform>())
+            i.DOComplete();
+        opponentPlayedCard.transform.DOComplete();
+        foreach(var i in opponentPlayedCard.GetComponentsInChildren<Transform>())
+            i.DOComplete();
 
         //  manage if a player has ran out of cards
         outOfCardsHandler();

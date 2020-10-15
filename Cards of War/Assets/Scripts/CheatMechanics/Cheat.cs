@@ -21,12 +21,12 @@ public abstract class Cheat : MonoBehaviour {
     }
 
     private void Update() {
-        if(useCondition())
-            use();
         if(getCharged())
             showCanUse();
         else 
             hideCanUse();
+        if(useCondition())
+            use();
     }
 
     public abstract float getChargeWinAmount();

@@ -8,6 +8,15 @@ public class WinCheat : Cheat {
     GameObject winBadge = null;
     bool holdingBadge = false;
 
+    private void Start() {
+        if(winSprite == null) {
+            foreach(var i in FindObjectsOfType<WinCheat>()) {
+                if(i.getWinSprite() != null)
+                    winSprite = i.getWinSprite();
+            }
+        }
+    }
+
     public override float getChargeWinAmount() {
         return 2.5f;
     }
@@ -25,6 +34,7 @@ public class WinCheat : Cheat {
                 var hit = getMouseHit();
                 if((hit != null && hit == winBadge) || holdingBadge) {
                     holdingBadge = true;
+                    winBadge.GetComponent<SpriteRenderer>().sortingOrder = 2;
                     winBadge.GetComponent<ObjectShadow>().showShadow();
                 }
             }
@@ -38,8 +48,8 @@ public class WinCheat : Cheat {
             else if(Input.GetMouseButtonUp(0) && holdingBadge) {
                 var col = winBadge.GetComponent<Collider2D>();
                 col.enabled = false;
+                winBadge.GetComponent<SpriteRenderer>().sortingOrder = -1;
                 winBadge.GetComponent<ObjectShadow>().hideShadow();
-                winBadge.GetComponent<ObjectShadow>().destroyShadow();
                 holdingBadge = false;
                 var hit = getMouseHit();
                 col.enabled = true;
@@ -47,16 +57,16 @@ public class WinCheat : Cheat {
 
                 var cm = FindObjectOfType<CardMovement>();
                 var cbm = FindObjectOfType<CardBattleMechanics>();
-                //  adds to player
                 if(hit != null) {
-                    if(hit == cbm.getPlayerPlayedCard().gameObject) {
+                    //  adds to player
+                    if(cbm.getPlayerPlayedCard() != null && hit == cbm.getPlayerPlayedCard().gameObject) {
                         cbm.setTempPlayerCardValueMod(cbm.getTempPlayerCardValueMod() + 100);
                         addBadgeToCard(hit);
                         setChargeAmount(0.0f);
                         returnToOrigin = false;
                     }
                     //  adds to opponent
-                    else if(hit == cbm.getOpponentPlayedCard().gameObject) {
+                    else if(cbm.getOpponentPlayedCard() != null && hit == cbm.getOpponentPlayedCard().gameObject) {
                         cbm.setTempOpponentCardValueMod(cbm.getTempOpponentCardValueMod() + 100);
                         addBadgeToCard(hit);
                         setChargeAmount(0.0f); 
@@ -64,21 +74,35 @@ public class WinCheat : Cheat {
                     }
                 }
 
+                
                 if(returnToOrigin) {
-                    if(gameObject.tag == "Player")
-                        winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(2.5f, 0.0f), 0.25f);
-                    else if(gameObject.tag == "Opponent")
-                        winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() - new Vector2(2.5f, 0.0f), 0.25f);
+                    winBadge.GetComponent<ObjectShadow>().destroyShadow();
+                    winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(2.5f, 0.0f), 0.25f);
                 }
             }
         }
 
-        //  the opponent played the cheat
-        else if(gameObject.tag == "Opponent") {
-            FindObjectOfType<CardBattleMechanics>().setTempOpponentCardValueMod(FindObjectOfType<CardBattleMechanics>().getTempOpponentCardValueMod() + 100);
-        }
 
-        //setChargeAmount(0.0f);
+        //  the opponent played the cheat
+        else if(gameObject.tag == "Opponent" && (FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard() != null && !FindObjectOfType<CardBattleMechanics>().getShown())) {
+            winBadge.transform.DOComplete();
+            FindObjectOfType<CardBattleMechanics>().setTempOpponentCardValueMod(FindObjectOfType<CardBattleMechanics>().getTempOpponentCardValueMod() + 100);
+
+            GameObject opponentCard = FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard();
+
+            winBadge.transform.SetParent(opponentCard.transform);
+            winBadge.GetComponent<SpriteRenderer>().sortingOrder = opponentCard.GetComponent<SpriteRenderer>().sortingOrder + 1;
+
+            Vector2 rand;
+            rand.x = Random.Range(-0.5f, 0.5f);
+            rand.y = Random.Range(-0.75f, 0.75f);
+            winBadge.transform.DOMove((Vector2)opponentCard.transform.position + rand, 0.5f);
+
+            winBadge.GetComponent<ObjectShadow>().hideShadow();
+            winBadge.GetComponent<Collider2D>().enabled = false;
+            setChargeAmount(0.0f);
+            winBadge = null;
+        }
     }
 
     GameObject getMouseHit() {
@@ -92,7 +116,6 @@ public class WinCheat : Cheat {
 
     void addBadgeToCard(GameObject card) {
         winBadge.GetComponent<Collider2D>().enabled = false;
-        winBadge.GetComponent<ObjectShadow>().destroyShadow();
         winBadge.transform.SetParent(card.transform);
         winBadge.GetComponent<SpriteRenderer>().sortingOrder = card.GetComponent<SpriteRenderer>().sortingOrder + 1;
         winBadge = null;
@@ -104,7 +127,7 @@ public class WinCheat : Cheat {
             winBadge = new GameObject("Win Badge");
             var sr = winBadge.AddComponent<SpriteRenderer>();
             sr.sprite = winSprite;
-            sr.sortingOrder = 2;
+            sr.sortingOrder = -1;
             winBadge.AddComponent<CircleCollider2D>();
             winBadge.AddComponent<ObjectShadow>();
 
@@ -138,7 +161,12 @@ public class WinCheat : Cheat {
         else if(gameObject.tag == "Opponent") {
             if(gameObject.GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0 && cbm.getShown())
                 return false;
+            return gameObject.GetComponent<OpponentAI>().wantsToUseCheat;
         }
         return true;
+    }
+
+    public Sprite getWinSprite() {
+        return winSprite;
     }
 }

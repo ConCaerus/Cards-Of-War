@@ -29,6 +29,15 @@ public class CheatIndex : MonoBehaviour {
         return null;
     }
 
+    public Cheat getCheatFromCheat(Cheat cheat) {
+        foreach(var i in GetComponents<Cheat>()) {
+            if(i.getName() == cheat.getName())
+                return i;
+        }
+
+        return null;
+    }
+
 
     //  didn't want to do it this way but fuck it
     public Cheat addCheatToObject(GameObject ob, Cheat cheat) {

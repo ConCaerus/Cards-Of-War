@@ -76,4 +76,8 @@ public class ObjectShadow : MonoBehaviour {
     public Vector2 getOffset() {
         return offset;
     }
+
+    public bool getShown() {
+        return shown;
+    }
 }
