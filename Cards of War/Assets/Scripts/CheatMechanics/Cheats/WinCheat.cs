@@ -15,6 +15,9 @@ public class WinCheat : Cheat {
                     winSprite = i.getWinSprite();
             }
         }
+
+        if(gameObject.tag == "Opponent" && GetComponent<OpponentAI>() == null)
+            gameObject.AddComponent<WinCheatOpponentAI>();
     }
 
     public override float getChargeWinAmount() {
@@ -60,14 +63,14 @@ public class WinCheat : Cheat {
                 if(hit != null) {
                     //  adds to player
                     if(cbm.getPlayerPlayedCard() != null && hit == cbm.getPlayerPlayedCard().gameObject) {
-                        cbm.setTempPlayerCardValueMod(cbm.getTempPlayerCardValueMod() + 100);
+                        cbm.getPlayerPlayedCard().gameObject.GetComponent<CardObject>().getCard().value = 100;
                         addBadgeToCard(hit);
                         setChargeAmount(0.0f);
                         returnToOrigin = false;
                     }
                     //  adds to opponent
                     else if(cbm.getOpponentPlayedCard() != null && hit == cbm.getOpponentPlayedCard().gameObject) {
-                        cbm.setTempOpponentCardValueMod(cbm.getTempOpponentCardValueMod() + 100);
+                        cbm.getOpponentPlayedCard().gameObject.GetComponent<CardObject>().getCard().value = 100;
                         addBadgeToCard(hit);
                         setChargeAmount(0.0f); 
                         returnToOrigin = false;
@@ -86,7 +89,7 @@ public class WinCheat : Cheat {
         //  the opponent played the cheat
         else if(gameObject.tag == "Opponent" && (FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard() != null && !FindObjectOfType<CardBattleMechanics>().getShown())) {
             winBadge.transform.DOComplete();
-            FindObjectOfType<CardBattleMechanics>().setTempOpponentCardValueMod(FindObjectOfType<CardBattleMechanics>().getTempOpponentCardValueMod() + 100);
+            FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard().gameObject.GetComponent<CardObject>().getCard().value = 100;
 
             GameObject opponentCard = FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard();
 

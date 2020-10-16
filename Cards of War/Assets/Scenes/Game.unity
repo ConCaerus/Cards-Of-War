@@ -2900,7 +2900,6 @@ GameObject:
   - component: {fileID: 1671323955}
   - component: {fileID: 1671323956}
   - component: {fileID: 1671323954}
-  - component: {fileID: 1671323953}
   m_Layer: 0
   m_Name: Opponent
   m_TagString: Opponent
@@ -2908,19 +2907,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1671323953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671323952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee1dc392a311f4844a93f368a5ba39d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chargeAmount: 0
 --- !u!114 &1671323954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2930,10 +2916,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671323952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab56080745dc53249b395f558c453554, type: 3}
+  m_Script: {fileID: 11500000, guid: e909ff6dfdc39174988972fc44ab812c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wantsToUseCheat: 0
+  chargeAmount: 0
+  winSprite: {fileID: 0}
 --- !u!4 &1671323955
 Transform:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ public abstract class OpponentAI : MonoBehaviour {
 
     private void Update() {
         wantsToUseCheat = useCheatLogic();
-        Debug.Log(wantsToUseCheat);
 
         if(playCardLogic())
             playCard();

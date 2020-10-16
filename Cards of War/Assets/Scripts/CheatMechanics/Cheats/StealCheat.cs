@@ -10,15 +10,17 @@ public class StealCheat : Cheat {
     }
 
 
+    private void Start() {
+        if(gameObject.tag == "Opponent" && GetComponent<StealCheatOpponentAI>() == null)
+            gameObject.AddComponent<StealCheatOpponentAI>();
+    }
+
     public override float getChargeWinAmount() {
         return 2.5f;
     }
 
     public override string getName() {
         return "Steal Cheat";
-    }
-
-    private void LateUpdate() {
     }
 
     //  This cheat takes a card from the other player and adds it to the owner's deck
@@ -113,11 +115,11 @@ public class StealCheat : Cheat {
 
         //  returns false if not enough cards for cheat to be used
         if(gameObject.tag == "Player") {
-            if(GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getNumOfCardsInPile() <= 0 || gameObject.GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
+            if(gameObject.GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
                 return false;
         }
         else if(gameObject.tag == "Opponent") {
-            if(GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getNumOfCardsInPile() <= 0 || gameObject.GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
+            if(gameObject.GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
                 return false;
         }
 

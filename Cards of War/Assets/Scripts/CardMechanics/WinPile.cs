@@ -55,6 +55,9 @@ public class WinPile : MonoBehaviour {
         return temp;
     }
 
+
+    //  does not remove the card from the win pile
+    //  need to be careful not to call this function instead of takeCardFromPile
     public GameObject getTopCardInPile() {
         return cardsInPile[cardsInPile.Count - 1];
     }
