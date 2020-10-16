@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Cheat : MonoBehaviour {
     public float chargeAmount;
     //  lowered a little cause float round off will fuck the player
-    public const float filledChargeAmount = 9.999999f;
+    public const float filledChargeAmount = 9.99f;
 
     private void Awake() {
         //  can add cheat to player

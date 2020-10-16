@@ -7,7 +7,7 @@ public class CardMovement : MonoBehaviour {
     Vector2 playerDeckPos, opponentDeckPos;
     Vector2 playerWinPilePos, opponentWinPilePos;
 
-    Vector2 opponentPlayPos = new Vector2(0.0f, 1.5f), playerPlayPos = new Vector2(0.0f, -1.5f);
+    Vector2 opponentPlayPos = new Vector2(0.0f, 1.5f);
     Vector2 recentOpponentPlayPos;
     GameObject playerHeldCardObjectOrigin;
     GameObject playerHeldCardObject, opponentHeldCardObject;

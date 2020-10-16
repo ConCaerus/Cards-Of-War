@@ -2917,11 +2917,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671323952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e909ff6dfdc39174988972fc44ab812c, type: 3}
+  m_Script: {fileID: 11500000, guid: ee1dc392a311f4844a93f368a5ba39d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chargeAmount: 0
-  winSprite: {fileID: 0}
 --- !u!114 &1671323954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2931,7 +2930,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671323952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fea455bab13ebd4a8304ddd66cc96cf, type: 3}
+  m_Script: {fileID: 11500000, guid: ab56080745dc53249b395f558c453554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wantsToUseCheat: 0

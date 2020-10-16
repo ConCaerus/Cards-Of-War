@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StealCheat : Cheat {
+    public enum OpponentStealOptions {
+        addToWinPile    = 0, 
+        playFromOther   = 1, 
+        playFromOwn     = 2
+    }
+
+
     public override float getChargeWinAmount() {
         return 2.5f;
     }
@@ -35,19 +42,55 @@ public class StealCheat : Cheat {
             }
         }
 
-        /*
+
         //  opponent used cheat
         else if(gameObject.tag == "Opponent") {
-            var stolenCard = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().takeCardFromPile();
+            GameObject stolenCard = null;
 
-            if(stolenCard != null) {
-                gameObject.GetComponentInChildren<Deck>().addCardToDeck(stolenCard);
+            switch(GetComponent<StealCheatOpponentAI>().chooseWhatToSteal()) {
 
-                FindObjectOfType<CardMovement>().stopMovingOpponentHeldCardObject();
+                //  add a card from the player's win pile to their own win pile
+                case OpponentStealOptions.addToWinPile:
+                    stolenCard = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().takeCardFromPile();
+
+                    if(stolenCard != null) {
+                        gameObject.GetComponentInChildren<WinPile>().addCardToPile(stolenCard);
+                        FindObjectOfType<CardMovement>().moveCardObjectToOpponentWinPile(stolenCard);
+                    }
+                    break;
+
+                //  plays a card from the player's win pile
+                case OpponentStealOptions.playFromOther:
+                    stolenCard = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().takeCardFromPile();
+
+                    if(stolenCard != null) {
+                        if(FindObjectOfType<CardMovement>().getOpponentHeldCardObject() == null) {
+                            stolenCard.GetComponent<ObjectShadow>().showShadow();
+                            FindObjectOfType<CardMovement>().setOpponentHeldCardObject(stolenCard);
+                            FindObjectOfType<CardMovement>().moveOpponentHeldCardToPlayPos();
+                        }
+                        else
+                            GetComponentInChildren<Deck>().addCardToDeck(stolenCard);
+                    }
+                    break;
+
+                //  plays a card the their own win pile
+                case OpponentStealOptions.playFromOwn:
+                    stolenCard = GetComponentInChildren<WinPile>().takeCardFromPile();
+
+                    if(stolenCard != null) {
+                        if(FindObjectOfType<CardMovement>().getOpponentHeldCardObject() == null) {
+                            stolenCard.GetComponent<ObjectShadow>().showShadow();
+                            FindObjectOfType<CardMovement>().setOpponentHeldCardObject(stolenCard);
+                            FindObjectOfType<CardMovement>().moveOpponentHeldCardToPlayPos();
+                        }
+                        else
+                            GetComponentInChildren<Deck>().addCardToDeck(stolenCard);
+                    }
+                    break;
             }
 
-            GetComponent<DialogHandler>().startCheatDialog();
-        } */
+        }
 
         setChargeAmount(0.0f);
     }

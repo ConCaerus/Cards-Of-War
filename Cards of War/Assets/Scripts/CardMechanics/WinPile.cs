@@ -55,6 +55,10 @@ public class WinPile : MonoBehaviour {
         return temp;
     }
 
+    public GameObject getTopCardInPile() {
+        return cardsInPile[cardsInPile.Count - 1];
+    }
+
     public int getNumOfCardsInPile() {
         return cardsInPile.Count;
     }

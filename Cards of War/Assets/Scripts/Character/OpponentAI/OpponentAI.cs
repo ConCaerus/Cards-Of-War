@@ -9,11 +9,11 @@ public abstract class OpponentAI : MonoBehaviour {
     public abstract bool useCheatLogic();
 
     private void Update() {
+        wantsToUseCheat = useCheatLogic();
+        Debug.Log(wantsToUseCheat);
+
         if(playCardLogic())
             playCard();
-
-        if(useCheatLogic())
-            wantsToUseCheat = true;
     }
 
     public void playCard() {
