@@ -37,3 +37,16 @@ MonoBehaviour:
   - Fuck! I lost
   - This is not over
   - I'll have my revenge
+  bestLoveDialog:
+  - You have the most beautiful cards
+  - You have such a way with cards
+  goodLoveDialog:
+  - Why don't we go out sometime
+  - You're doing so well in this game
+  badLoveDialog:
+  - I love the way you're losing
+  - I hope you can do better in your next game, cause fuck
+  worstLoveDialog:
+  - My god you're bad
+  - I saw you bribe the referee you cunt
+  - Thought you were better than this

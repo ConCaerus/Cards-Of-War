@@ -5,6 +5,12 @@ using UnityEngine;
 public class AddCardsCheat : Cheat {
     const int cardsToAdd = 2;
 
+    
+    private void Start() {
+        if(gameObject.tag == "Opponent" && GetComponent<OpponentAI>() == null)
+            gameObject.AddComponent<DefaultOpponentAI>();
+    }
+
     public override float getChargeWinAmount() {
         return 3.0f;
     }
@@ -49,12 +55,7 @@ public class AddCardsCheat : Cheat {
             if(GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
                 return false;
         }
-
-        if(gameObject.tag == "Player")
-            return Input.GetKeyDown(KeyCode.Space);
-        else if(gameObject.tag == "Opponent")
-            return GetComponent<OpponentAI>().wantsToUseCheat;
-        return false;
+        return true;
     }
 
 

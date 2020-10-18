@@ -12,4 +12,11 @@ public class Dialog : ScriptableObject {
 
     public List<string> winDialog = new List<string>();
     public List<string> loseDialog = new List<string>();
+
+
+    //  specific dialog
+    public List<string> bestLoveDialog = new List<string>();
+    public List<string> goodLoveDialog = new List<string>();
+    public List<string> badLoveDialog = new List<string>();
+    public List<string> worstLoveDialog = new List<string>();
 }

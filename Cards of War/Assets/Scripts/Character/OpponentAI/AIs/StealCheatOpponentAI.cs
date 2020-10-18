@@ -23,7 +23,7 @@ public class StealCheatOpponentAI : OpponentAI {
     }
 
 
-    public StealCheat.OpponentStealOptions chooseWhatToSteal() {
+    public StealCheat.OpponentStealOption chooseWhatToSteal() {
         int playerVal = 0, opponentVal = 0;
         
         if(GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getNumOfCardsInPile() > 0)
@@ -33,11 +33,11 @@ public class StealCheatOpponentAI : OpponentAI {
 
         //  playerVal is enough and opponentVal is not
         if(playerVal >= valToStealOther && opponentVal < valToStealOwn)
-            return StealCheat.OpponentStealOptions.playFromOther;
+            return StealCheat.OpponentStealOption.playFromOther;
 
         //  player Val is not enough and opponentVal is
         else if(playerVal < valToStealOther && opponentVal >= valToStealOwn)
-            return StealCheat.OpponentStealOptions.playFromOwn;
+            return StealCheat.OpponentStealOption.playFromOwn;
 
         //  both playerVal and opponentVal are enough
         else if(playerVal >= valToStealOther && opponentVal >= valToStealOwn) {
@@ -45,12 +45,12 @@ public class StealCheatOpponentAI : OpponentAI {
             int diff = playerVal - opponentVal;
 
             if(diff >= 0)
-                return StealCheat.OpponentStealOptions.playFromOther;
+                return StealCheat.OpponentStealOption.playFromOther;
             else
-                return StealCheat.OpponentStealOptions.playFromOwn;
+                return StealCheat.OpponentStealOption.playFromOwn;
         }
 
-        return StealCheat.OpponentStealOptions.addToWinPile;
+        return StealCheat.OpponentStealOption.addToWinPile;
     }
 
     IEnumerator waitToPlayCheat() {

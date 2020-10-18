@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StealCheat : Cheat {
-    public enum OpponentStealOptions {
+    public enum OpponentStealOption {
         addToWinPile    = 0, 
         playFromOther   = 1, 
         playFromOwn     = 2
@@ -52,7 +52,7 @@ public class StealCheat : Cheat {
             switch(GetComponent<StealCheatOpponentAI>().chooseWhatToSteal()) {
 
                 //  add a card from the player's win pile to their own win pile
-                case OpponentStealOptions.addToWinPile:
+                case OpponentStealOption.addToWinPile:
                     stolenCard = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().takeCardFromPile();
 
                     if(stolenCard != null) {
@@ -62,7 +62,7 @@ public class StealCheat : Cheat {
                     break;
 
                 //  plays a card from the player's win pile
-                case OpponentStealOptions.playFromOther:
+                case OpponentStealOption.playFromOther:
                     stolenCard = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().takeCardFromPile();
 
                     if(stolenCard != null) {
@@ -77,7 +77,7 @@ public class StealCheat : Cheat {
                     break;
 
                 //  plays a card the their own win pile
-                case OpponentStealOptions.playFromOwn:
+                case OpponentStealOption.playFromOwn:
                     stolenCard = GetComponentInChildren<WinPile>().takeCardFromPile();
 
                     if(stolenCard != null) {

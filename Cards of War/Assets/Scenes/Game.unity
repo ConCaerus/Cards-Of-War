@@ -946,7 +946,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.36018154, g: 0.5377358, b: 0.3869999, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2044,11 +2044,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111496776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e909ff6dfdc39174988972fc44ab812c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6aa377ce3e2ad634191578dbc68759c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chargeAmount: 0
-  winSprite: {fileID: 21300000, guid: 82bf3d8ba7eac2a4e9278fcf21af1560, type: 3}
+  loveCheatCanvasPreset: {fileID: 7616500602896218916, guid: ca512daee50287146bf53f0c0cffdbef,
+    type: 3}
 --- !u!4 &1111496779
 Transform:
   m_ObjectHideFlags: 0
@@ -2898,7 +2899,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1671323955}
-  - component: {fileID: 1671323956}
+  - component: {fileID: 1671323953}
   - component: {fileID: 1671323954}
   m_Layer: 0
   m_Name: Opponent
@@ -2907,6 +2908,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1671323953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671323952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc03376c8a4a9847ba6b2e1c8852eef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeAmount: 0
 --- !u!114 &1671323954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2916,11 +2930,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671323952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e909ff6dfdc39174988972fc44ab812c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3677d5a824538a241aa1fadd33e0e96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeAmount: 0
-  winSprite: {fileID: 0}
+  dialog: {fileID: 11400000, guid: 03f06c29b8b2f8b4c81b7993be8f96db, type: 2}
 --- !u!4 &1671323955
 Transform:
   m_ObjectHideFlags: 0
@@ -2937,19 +2950,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1671323956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671323952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3677d5a824538a241aa1fadd33e0e96f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: {fileID: 11400000, guid: 03f06c29b8b2f8b4c81b7993be8f96db, type: 2}
 --- !u!1 &1737228064
 GameObject:
   m_ObjectHideFlags: 0

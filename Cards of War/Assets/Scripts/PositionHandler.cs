@@ -27,20 +27,22 @@ public class PositionHandler : MonoBehaviour {
     }
 
     private void Update() {
-        screenHeight = Camera.main.scaledPixelHeight;
-        screenWidth = Camera.main.scaledPixelWidth;
+        if(Camera.main != null) {
+            screenHeight = Camera.main.scaledPixelHeight;
+            screenWidth = Camera.main.scaledPixelWidth;
 
-        cardWidth = cardPreset.transform.lossyScale.x;
-        cardHeight = cardPreset.transform.lossyScale.y;
+            cardWidth = cardPreset.transform.lossyScale.x;
+            cardHeight = cardPreset.transform.lossyScale.y;
 
-        screenTop = Camera.main.ScreenToWorldPoint(new Vector2(0.0f, 1.0f)).y * -1.0f;  //  dont ask why multing by neg 1
-        screenRight = Camera.main.ScreenToWorldPoint(new Vector2(1.0f, 0.0f)).x * -1.0f;//  it's a whole thing
-        screenBottom = Camera.main.ScreenToWorldPoint(new Vector2(0.0f, 0.0f)).y;
-        screenLeft = Camera.main.ScreenToWorldPoint(new Vector2(0.0f, 0.0f)).x;
+            screenTop = Camera.main.ScreenToWorldPoint(new Vector2(0.0f, 1.0f)).y * -1.0f;  //  dont ask why multing by neg 1
+            screenRight = Camera.main.ScreenToWorldPoint(new Vector2(1.0f, 0.0f)).x * -1.0f;//  it's a whole thing
+            screenBottom = Camera.main.ScreenToWorldPoint(new Vector2(0.0f, 0.0f)).y;
+            screenLeft = Camera.main.ScreenToWorldPoint(new Vector2(0.0f, 0.0f)).x;
 
 
-        positionDecks();
-        positionWinPiles();
+            positionDecks();
+            positionWinPiles();
+        }
     }
 
 

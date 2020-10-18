@@ -78,4 +78,30 @@ public class DialogHandler : MonoBehaviour {
 
         return null;
     }
+
+
+
+    //  random dialog that has specific uses
+    public string getLoveOptionDialog(LoveCheat.LoveOption option) {
+        int rand = 0;
+
+        switch(option) {
+            case LoveCheat.LoveOption.bestOption:
+                rand = Random.Range(0, dialog.bestLoveDialog.Count);
+                return dialog.bestLoveDialog[rand];
+
+            case LoveCheat.LoveOption.goodOption: 
+                rand = Random.Range(0, dialog.goodLoveDialog.Count);
+                return dialog.goodLoveDialog[rand];
+
+            case LoveCheat.LoveOption.badOption:
+                rand = Random.Range(0, dialog.badLoveDialog.Count);
+                return dialog.badLoveDialog[rand];
+
+            case LoveCheat.LoveOption.worstOption:
+                rand = Random.Range(0, dialog.worstLoveDialog.Count);
+                return dialog.worstLoveDialog[rand];
+        }
+        return "";
+    }
 }

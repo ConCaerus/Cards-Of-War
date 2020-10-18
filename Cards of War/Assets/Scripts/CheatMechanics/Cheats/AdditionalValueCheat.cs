@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AdditionalValueCheat : Cheat {
+    private void Start() {
+        if(gameObject.tag == "Opponent" && GetComponent<OpponentAI>() == null)
+            gameObject.AddComponent<DefaultOpponentAI>();
+    }
+
     public override float getChargeWinAmount() {
         return 2.0f;
     }
@@ -40,11 +45,6 @@ public class AdditionalValueCheat : Cheat {
     public override bool useCondition() {
         if(!getCharged())
             return false;
-        if(chargeAmount >= filledChargeAmount) {
-            if(gameObject.tag == "Player")
-                return Input.GetKeyDown(KeyCode.Space);
-            return true;
-        }
-        return false;
+        return chargeAmount >= filledChargeAmount;
     }
 }
