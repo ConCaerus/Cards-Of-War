@@ -17,8 +17,6 @@ public class LoveCheatCanvas : MonoBehaviour {
         cheat = GameObject.FindGameObjectWithTag("Player").GetComponent<LoveCheat>();
 
         resetPhoneOptions();
-
-        Debug.Log(phone.transform.position);
     }
 
 

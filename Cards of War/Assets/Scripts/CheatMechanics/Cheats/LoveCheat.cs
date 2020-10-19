@@ -14,6 +14,16 @@ public class LoveCheat : Cheat {
     }
 
     private void Start() {
+        //  sets love cheat canvas preset if null
+        if(loveCheatCanvasPreset == null) {
+            foreach(var i in FindObjectsOfType<LoveCheat>()) {
+                if(i.loveCheatCanvasPreset != null)
+                    loveCheatCanvasPreset = i.loveCheatCanvasPreset;
+            }
+        }
+
+
+        //  sets love cheat canvas if null
         if(FindObjectOfType<LoveCheatCanvas>() == null) {
             var canvas = Instantiate(loveCheatCanvasPreset);
             canvas.GetComponent<Canvas>().worldCamera = Camera.main;
@@ -22,7 +32,12 @@ public class LoveCheat : Cheat {
         }
         else 
             loveCheatCanvas = FindObjectOfType<LoveCheatCanvas>();
+
+        //  adds opponent AI if null
+        if(gameObject.tag == "Opponent" && gameObject.GetComponent<OpponentAI>() == null)
+            gameObject.AddComponent<LoveCheatOpponentAI>();
     }
+
 
     public override float getChargeWinAmount() {
         return 5.0f;
@@ -34,7 +49,16 @@ public class LoveCheat : Cheat {
 
 
     public override void use() {
-        loveCheatCanvas.showPhone();
+        //  player used cheat
+        if(gameObject.tag == "Player")
+            loveCheatCanvas.showPhone();
+
+        //  opponent used cheat
+        else if(gameObject.tag == "Opponent") {
+            LoveOption option = LoveOption.goodOption;
+
+            chooseOption(option);
+        }
     }
 
 
@@ -45,12 +69,19 @@ public class LoveCheat : Cheat {
     }
 
     public override void hideCanUse() {
-        loveCheatCanvas.hidePhone();
+        if(gameObject.tag == "Player")
+            loveCheatCanvas.hidePhone();
     }
 
 
     public override bool useCondition() {
-        return getCharged();
+        if(getCharged()) {
+            if(gameObject.tag == "Opponent")
+                return gameObject.GetComponent<OpponentAI>().wantsToUseCheat;
+            else if(gameObject.tag == "Player")
+                return true;
+        }
+        return false;
     }
 
 

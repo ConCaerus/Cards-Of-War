@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4848971710244774516}
   - component: {fileID: 2250352293893458023}
   - component: {fileID: 72511927449641972}
+  - component: {fileID: 7408599380048412647}
   m_Layer: 0
   m_Name: CheatIndex
   m_TagString: Untagged
@@ -100,3 +101,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeAmount: 0
   winSprite: {fileID: 21300000, guid: 82bf3d8ba7eac2a4e9278fcf21af1560, type: 3}
+--- !u!114 &7408599380048412647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881657626536855636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa377ce3e2ad634191578dbc68759c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeAmount: 0
+  loveCheatCanvasPreset: {fileID: 7616500602896218916, guid: ca512daee50287146bf53f0c0cffdbef,
+    type: 3}
