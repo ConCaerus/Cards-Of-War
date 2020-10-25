@@ -50,8 +50,9 @@ public class LoveCheat : Cheat {
 
     public override void use() {
         //  player used cheat
-        if(gameObject.tag == "Player")
-            loveCheatCanvas.showPhone();
+        if(gameObject.tag == "Player") {
+            loveCheatCanvas.showCanvas();
+        }
 
         //  opponent used cheat
         else if(gameObject.tag == "Opponent") {
@@ -69,8 +70,9 @@ public class LoveCheat : Cheat {
     }
 
     public override void hideCanUse() {
-        if(gameObject.tag == "Player")
-            loveCheatCanvas.hidePhone();
+        if(gameObject.tag == "Player") {
+            loveCheatCanvas.hideCanvas();
+        }
     }
 
 

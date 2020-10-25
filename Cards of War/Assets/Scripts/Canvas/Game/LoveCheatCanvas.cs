@@ -9,50 +9,18 @@ public class LoveCheatCanvas : MonoBehaviour {
     LoveCheat cheat;
 
     [SerializeField] GameObject bestObject, goodObject, badObject, worstObject;
-    [SerializeField] GameObject phone;
+    [SerializeField] GameObject canvasHolder;
 
-    bool alreadyReset = false, shown = false;
+    bool shown = false;
+
+    private void Awake() {
+        if(canvasHolder == null)
+            canvasHolder = GetComponentInChildren<GameObject>();
+    }
 
     private void Start() {
         cheat = GameObject.FindGameObjectWithTag("Player").GetComponent<LoveCheat>();
-
-        resetPhoneOptions();
-    }
-
-    private void LateUpdate() {
-        if(shown) {
-            if(checkIfMouseOnPhone()) {
-                phone.transform.DOScale(new Vector3(2.0f, 2.0f, 2.0f), 0.25f);
-                phone.transform.DOMove(new Vector3(0.9f, -0.9f, phone.transform.position.z), 0.25f);
-            }
-            else {
-                phone.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), 0.15f);
-                phone.transform.DOMove(new Vector3(0.9f, -1.9f, phone.transform.position.z), 0.25f);
-            }
-
-
-            foreach(var i in phone.GetComponentsInChildren<Transform>()) {
-                i.position = new Vector3(i.position.x, i.position.y, phone.transform.position.z);
-            }
-        }
-    }
-
-
-    void resetPhoneOptions() {
-        setOptionTexts();
-        mixUpOptionPoses();
-        alreadyReset = true;
-    }
-
-
-    bool checkIfMouseOnPhone() {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-        if(hit.collider != null) {
-            return hit.collider == phone.GetComponent<BoxCollider2D>();
-        }
-
-        return false;
+        canvasHolder.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - 10.0f, canvasHolder.transform.position.z);
     }
 
 
@@ -77,18 +45,21 @@ public class LoveCheatCanvas : MonoBehaviour {
     }
 
 
-    public void showPhone() {   
-        shown = true;     
-        if(!alreadyReset)
-            resetPhoneOptions();
-        
-        phone.transform.DOMove(new Vector3(0.9f, -1.9f, phone.transform.position.z), 0.25f);
+
+    public void showCanvas() {
+        if(!shown) {
+            canvasHolder.transform.DOMove(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, canvasHolder.transform.position.z), 0.5f);
+
+            shown = true;
+        }
     }
 
-    public void hidePhone() {
-        shown = false;
-        phone.transform.DOMove(new Vector3(0.9f, -10.0f, phone.transform.position.z), 0.15f);
-        phone.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), 0.15f);
+    public void hideCanvas() {
+        if(shown) {
+            canvasHolder.transform.DOMove(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - 10.0f, canvasHolder.transform.position.z), 0.5f);
+
+            shown = false;
+        }
     }
 
 
@@ -96,23 +67,18 @@ public class LoveCheatCanvas : MonoBehaviour {
 
     //  Buttons 
     public void bestButton() {
-        Debug.Log("her");
         cheat.chooseOption(LoveCheat.LoveOption.bestOption);
-        alreadyReset = false;
     }
 
     public void goodButton() {
         cheat.chooseOption(LoveCheat.LoveOption.goodOption);
-        alreadyReset = false;
     }
 
     public void badButton() {
         cheat.chooseOption(LoveCheat.LoveOption.badOption);
-        alreadyReset = false;
     }
 
     public void worstButton() {
         cheat.chooseOption(LoveCheat.LoveOption.worstOption);
-        alreadyReset = false;
     }
 }
