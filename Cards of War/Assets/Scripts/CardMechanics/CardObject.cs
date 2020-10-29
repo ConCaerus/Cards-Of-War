@@ -15,6 +15,13 @@ public class CardObject : MonoBehaviour {
     }
 
 
+    private void Start() {
+        if(FindObjectOfType<TableCanvas>() != null) {
+            transform.rotation = FindObjectOfType<TableCanvas>().getTableRotation();
+        }
+    }
+
+
 
     public void showCardFace() {
         if(card != null) {

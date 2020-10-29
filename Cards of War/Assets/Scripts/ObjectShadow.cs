@@ -31,6 +31,7 @@ public class ObjectShadow : MonoBehaviour {
         sr.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
 
         shadow.transform.position = transform.position;
+        shadow.transform.rotation = transform.rotation;
         shadow.transform.SetParent(transform);
     }
 

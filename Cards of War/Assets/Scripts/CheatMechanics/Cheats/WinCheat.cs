@@ -133,6 +133,8 @@ public class WinCheat : Cheat {
             sr.sortingOrder = -1;
             winBadge.AddComponent<CircleCollider2D>();
             winBadge.AddComponent<ObjectShadow>();
+            if(FindObjectOfType<TableCanvas>() != null)
+                winBadge.transform.rotation = FindObjectOfType<TableCanvas>().getTableRotation();
 
             if(gameObject.tag == "Player") {
                 winBadge.transform.position = gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(2.5f, -1.0f);

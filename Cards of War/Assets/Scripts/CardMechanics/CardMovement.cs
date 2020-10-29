@@ -7,7 +7,7 @@ public class CardMovement : MonoBehaviour {
     Vector2 playerDeckPos, opponentDeckPos;
     Vector2 playerWinPilePos, opponentWinPilePos;
 
-    Vector2 opponentPlayPos = new Vector2(0.0f, 1.5f);
+    Vector2 opponentPlayPos;
     Vector2 recentOpponentPlayPos;
     GameObject playerHeldCardObjectOrigin;
     GameObject playerHeldCardObject, opponentHeldCardObject;
@@ -25,6 +25,10 @@ public class CardMovement : MonoBehaviour {
 
         playerWinPilePos = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getWinPilePos();
         opponentWinPilePos = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getWinPilePos();
+
+        float middleX = (playerDeckPos.x + opponentDeckPos.x) / 2.0f;
+        float middleY = (opponentDeckPos.y + playerDeckPos.y) / 2.0f;
+        opponentPlayPos = new Vector2(middleX, middleY + 0.75f);
     }
 
     private void LateUpdate() {
@@ -34,13 +38,6 @@ public class CardMovement : MonoBehaviour {
         //  stop showing opponent shadow
         if(opponentHeldCardObjectDoneMovingToPlayPos())
             sendOpponentCardObject();
-            
-
-        playerDeckPos = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>().getDeckPos();
-        opponentDeckPos = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getDeckPos();
-
-        playerWinPilePos = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getWinPilePos();
-        opponentWinPilePos = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getWinPilePos();
     }
 
 
@@ -247,7 +244,6 @@ public class CardMovement : MonoBehaviour {
             else if(!Input.GetMouseButton(0) && !overDeck && !overWinPile) {
                 FindObjectOfType<CardBattleMechanics>().setPlayerPlayedCard(playerHeldCardObject);
                 playerHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
-                FindObjectOfType<TableDetails>().moveDetailsAwayFromPosition(playerHeldCardObject.transform.position);
                 playerHeldCardObject = null;
                 playerHeldCardObjectOrigin = null;
             }
@@ -311,7 +307,6 @@ public class CardMovement : MonoBehaviour {
         if(opponentHeldCardObject != null) {
             opponentHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
             FindObjectOfType<CardBattleMechanics>().setOpponentPlayedCard(opponentHeldCardObject);
-            FindObjectOfType<TableDetails>().moveDetailsAwayFromPosition(opponentHeldCardObject.transform.position);
             opponentHeldCardObject = null;
         }
     }
