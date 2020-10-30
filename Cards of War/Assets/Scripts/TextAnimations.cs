@@ -5,7 +5,7 @@ using TMPro;
 
 public class TextAnimations : MonoBehaviour {
     [SerializeField] TextMeshProUGUI text;
-    string txt;
+    public string txt;
 
     Coroutine textAnimator = null;
 
@@ -27,6 +27,10 @@ public class TextAnimations : MonoBehaviour {
     }
 
 
+    public void setText(string newText) {
+        txt = newText;
+    }
+
     void resetTextAnimation() {
         if(textAnimator != null)
             StopCoroutine(textAnimator);
@@ -34,9 +38,9 @@ public class TextAnimations : MonoBehaviour {
         textAnimator = null;
     }
 
-
+    public bool spaceThing = true;
     IEnumerator animateText(int index = 0) {
-        yield return new WaitForSeconds(0.025f);
+        yield return new WaitForSeconds(0.5f);
 
         var arr = txt.ToCharArray();
 
@@ -54,6 +58,8 @@ public class TextAnimations : MonoBehaviour {
             }
 
             text.text += arr[i];
+
+            //  code here that skips spaces in text so only letters get animated.
         }
 
         if(index < arr.Length + 1)
@@ -61,9 +67,5 @@ public class TextAnimations : MonoBehaviour {
 
         else 
             textAnimator = null;
-    }
-
-    float getRand() {
-        return Random.Range(0.0f, 1.0f);
     }
 }
