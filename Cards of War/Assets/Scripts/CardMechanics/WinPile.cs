@@ -24,6 +24,19 @@ public class WinPile : MonoBehaviour {
     }
 
 
+    private void Update() {
+        setPosition();
+    }
+
+
+    void setPosition() {
+        if(transform.parent.gameObject.tag == "Player")
+            transform.position = FindObjectOfType<Table>().getPlayerWinPilePos();
+        else if(transform.parent.gameObject.tag == "Opponent")
+            transform.position = FindObjectOfType<Table>().getOpponentWinPilePos();
+    }
+
+
     void setSortingOrderForCardsInPile() {
         for(int i = 0; i < cardsInPile.Count - 1; i++) {
             cardsInPile[i].GetComponent<SpriteRenderer>().sortingOrder = -(cardsInPile.Count - 1 - i);

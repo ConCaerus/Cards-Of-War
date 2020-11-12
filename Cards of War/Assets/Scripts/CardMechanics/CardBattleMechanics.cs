@@ -27,7 +27,7 @@ public class CardBattleMechanics : MonoBehaviour {
         //  the player has played a card
         if(playerPlayedCard != null && opponentPlayedCard != null) {
 
-            if(advanceBattle()) {
+            if(GameInformation.advanceBattle()) {
                 showPlayerPlayedCard();
                 showOpponentPlayedCard();
 
@@ -44,16 +44,11 @@ public class CardBattleMechanics : MonoBehaviour {
         //  player is looking at the results of the battle
         if(shown == true) {
             //  player is ready to resolve the battle and have the cards go to the winner
-            if(advanceBattle()) {
+            if(GameInformation.advanceBattle()) {
                 StopCoroutine(startedWaitToResolveBattle);
                 resolveBattle();
             }
         }
-    }
-
-
-    public bool advanceBattle() {
-        return Input.GetMouseButtonDown(1);
     }
 
 

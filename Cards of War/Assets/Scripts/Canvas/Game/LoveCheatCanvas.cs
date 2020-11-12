@@ -11,6 +11,8 @@ public class LoveCheatCanvas : MonoBehaviour {
     [SerializeField] GameObject bestObject, goodObject, badObject, worstObject;
     [SerializeField] GameObject canvasHolder;
 
+    [SerializeField] TextMeshProUGUI dialogText;
+
     bool shown = false;
 
     private void Awake() {
@@ -20,7 +22,7 @@ public class LoveCheatCanvas : MonoBehaviour {
 
     private void Start() {
         cheat = GameObject.FindGameObjectWithTag("Player").GetComponent<LoveCheat>();
-        canvasHolder.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - 10.0f, canvasHolder.transform.position.z);
+        forceHideCanvas();
     }
 
 
@@ -45,21 +47,46 @@ public class LoveCheatCanvas : MonoBehaviour {
     }
 
 
+    public void initDialogText() {
+        dialogText.GetComponent<TextAnimation>().init();
+    }
+
 
     public void showCanvas() {
         if(!shown) {
+            canvasHolder.transform.DOComplete();
+            //  sets position
             canvasHolder.transform.DOMove(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, canvasHolder.transform.position.z), 0.5f);
 
+            //  starts text animations
+            if(dialogText.GetComponent<TextAnimation>() != null) {
+                dialogText.GetComponent<TextAnimation>().startAnimation();
+            }
+
+            //  mixes up options
+            mixUpOptionPoses();
+
+            setOptionTexts();
             shown = true;
         }
     }
 
     public void hideCanvas() {
         if(shown) {
-            canvasHolder.transform.DOMove(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - 10.0f, canvasHolder.transform.position.z), 0.5f);
+            canvasHolder.transform.DOComplete();
+            canvasHolder.transform.DOMove(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + 10.0f, canvasHolder.transform.position.z), 0.5f);
 
             shown = false;
+
+            Debug.Log("here");
         }
+    }
+
+    public void forceHideCanvas() {
+        canvasHolder.transform.DOComplete();
+        canvasHolder.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + 10.0f, canvasHolder.transform.position.z);
+
+        shown = false;
     }
 
 
@@ -67,18 +94,26 @@ public class LoveCheatCanvas : MonoBehaviour {
 
     //  Buttons 
     public void bestButton() {
-        cheat.chooseOption(LoveCheat.LoveOption.bestOption);
+        if(shown) 
+            cheat.chooseOption(LoveCheat.LoveOption.bestOption);
+        hideCanvas();
     }
 
     public void goodButton() {
-        cheat.chooseOption(LoveCheat.LoveOption.goodOption);
+        if(shown)
+            cheat.chooseOption(LoveCheat.LoveOption.goodOption);
+        hideCanvas();
     }
 
     public void badButton() {
-        cheat.chooseOption(LoveCheat.LoveOption.badOption);
+        if(shown)
+            cheat.chooseOption(LoveCheat.LoveOption.badOption);
+        hideCanvas();
     }
 
     public void worstButton() {
-        cheat.chooseOption(LoveCheat.LoveOption.worstOption);
+        if(shown)
+            cheat.chooseOption(LoveCheat.LoveOption.worstOption);
+        hideCanvas();
     }
 }

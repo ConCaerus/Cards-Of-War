@@ -23,16 +23,6 @@ public class LoveCheat : Cheat {
         }
 
 
-        //  sets love cheat canvas if null
-        if(FindObjectOfType<LoveCheatCanvas>() == null) {
-            var canvas = Instantiate(loveCheatCanvasPreset);
-            canvas.GetComponent<Canvas>().worldCamera = Camera.main;
-
-            loveCheatCanvas = canvas.GetComponent<LoveCheatCanvas>();
-        }
-        else 
-            loveCheatCanvas = FindObjectOfType<LoveCheatCanvas>();
-
         //  adds opponent AI if null
         if(gameObject.tag == "Opponent" && gameObject.GetComponent<OpponentAI>() == null)
             gameObject.AddComponent<LoveCheatOpponentAI>();
@@ -52,6 +42,8 @@ public class LoveCheat : Cheat {
         //  player used cheat
         if(gameObject.tag == "Player") {
             loveCheatCanvas.showCanvas();
+
+            setChargeAmount(0.0f);
         }
 
         //  opponent used cheat
@@ -64,15 +56,21 @@ public class LoveCheat : Cheat {
 
 
     public override void showCanUse() {
-        //  show the player's phone vibrating with a message from opponent character
-        //  the message could be like "You look beautiful during this game"
-        //  the player will then have to click on the phone and be given reply options
+        //  sets love cheat canvas if null
+        if(FindObjectOfType<LoveCheatCanvas>() == null) {
+            var canvas = Instantiate(loveCheatCanvasPreset);
+            canvas.GetComponent<Canvas>().worldCamera = Camera.main;
+
+            loveCheatCanvas = canvas.GetComponent<LoveCheatCanvas>();
+        }
+        else 
+            loveCheatCanvas = FindObjectOfType<LoveCheatCanvas>();
+
+        loveCheatCanvas.forceHideCanvas();
+        loveCheatCanvas.initDialogText();
     }
 
     public override void hideCanUse() {
-        if(gameObject.tag == "Player") {
-            loveCheatCanvas.hideCanvas();
-        }
     }
 
 

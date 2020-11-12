@@ -543,7 +543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.654902}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -776,7 +776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -981,7 +981,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.47843137}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1007,6 +1007,7 @@ GameObject:
   - component: {fileID: 9186995166171524227}
   - component: {fileID: 3003319012590713947}
   - component: {fileID: 5028738514591957319}
+  - component: {fileID: 728544009724253101}
   m_Layer: 5
   m_Name: Dialog
   m_TagString: Untagged
@@ -1154,6 +1155,18 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &728544009724253101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054725830003133102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d19ce524e525e4b95428435f37c5d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6801207274251858635
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,7 +1544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1789,10 +1802,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bestObject: {fileID: 9171596369249538940}
-  goodObject: {fileID: 0}
-  badObject: {fileID: 0}
-  worstObject: {fileID: 0}
+  goodObject: {fileID: 7578561847436069608}
+  badObject: {fileID: 2830473309861672254}
+  worstObject: {fileID: 4887293450803529194}
   canvasHolder: {fileID: 7512835239782621090}
+  dialogText: {fileID: 5028738514591957319}
 --- !u!1 &9171596369249538940
 GameObject:
   m_ObjectHideFlags: 0

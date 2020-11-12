@@ -10,6 +10,10 @@ public class Deck : MonoBehaviour {
     bool canStartPlaying = false;
     bool mouseOverCollider = false;
 
+    private void Update() {
+        setPosition();
+    }
+
 
     private void OnMouseDrag() {
         //  pickup a card and move it with the mouse cursor.
@@ -23,6 +27,15 @@ public class Deck : MonoBehaviour {
     }
     private void OnMouseExit() {
         mouseOverCollider = false;
+    }
+
+
+
+    void setPosition() {
+        if(transform.parent.gameObject.tag == "Player")
+            transform.position = FindObjectOfType<Table>().getPlayerDeckPos();
+        else if(transform.parent.gameObject.tag == "Opponent")
+            transform.position = FindObjectOfType<Table>().getOpponentDeckPos();
     }
 
 

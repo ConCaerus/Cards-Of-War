@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class Cheat : MonoBehaviour {
     public float chargeAmount;
-    //  lowered a little cause float round off will fuck the player
-    public const float filledChargeAmount = 9.99f;
+    public const float filledChargeAmount = 10.0f;
 
     private void Awake() {
         //  can add cheat to player
@@ -54,11 +53,29 @@ public abstract class Cheat : MonoBehaviour {
 
     public void setChargeAmount(float f) {
         chargeAmount = f;
+        roundChargeAmount();
     }
     public void addWinChargeAmount() {
         chargeAmount += getChargeWinAmount();
+        roundChargeAmount();
     }
     public void addLoseChargeAmount() {
         chargeAmount += getChargeWinAmount() / 2;
+        roundChargeAmount();
+    }
+
+
+    void roundChargeAmount() {
+        for(int i = 1; i <= 10; i++) {
+            //  charge amount needs to be rounded
+            if(Mathf.Abs(chargeAmount - (i / filledChargeAmount)) < 0.005f) {
+                chargeAmount = (i / filledChargeAmount);
+                return;
+            }
+
+            //  charge amount is already greater than the value and no longer needs to repeat
+            else if(chargeAmount < (i / filledChargeAmount)) 
+                return;
+        }
     }
 }

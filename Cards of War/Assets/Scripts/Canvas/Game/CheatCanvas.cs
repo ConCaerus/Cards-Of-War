@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CheatCanvas : MonoBehaviour {
     [SerializeField] Slider playerCheatSlider, opponentCheatSlider;
+    [SerializeField] bool showOpponentCheatSlider = false;
 
     float speed = 18.0f;
 
@@ -17,9 +18,13 @@ public class CheatCanvas : MonoBehaviour {
 
         if(GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>() == null)
             playerCheatSlider.enabled = false;
+        else 
+            playerCheatSlider.enabled = true;
 
-        if(GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>() == null)
+        if(GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>() == null && showOpponentCheatSlider)
             opponentCheatSlider.enabled = false;
+        else
+            opponentCheatSlider.enabled = true;
     }
 
 
@@ -33,7 +38,7 @@ public class CheatCanvas : MonoBehaviour {
             playerCheatSlider.value = Mathf.Lerp(playerCheatSlider.value, target, speed * Time.deltaTime);
         }
 
-        if(opponentCheatSlider.enabled == true) {
+        if(opponentCheatSlider.enabled == true && showOpponentCheatSlider) {
             float target = GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>().getChargeAmount();
             opponentCheatSlider.value = Mathf.Lerp(opponentCheatSlider.value, target, speed * Time.deltaTime);
         }

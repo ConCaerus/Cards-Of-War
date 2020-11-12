@@ -25,4 +25,10 @@ public static class GameInformation {
 
         return gameResult;
     }
+
+
+
+    public static bool advanceBattle() {
+        return Input.GetMouseButtonDown(1);
+    }
 }

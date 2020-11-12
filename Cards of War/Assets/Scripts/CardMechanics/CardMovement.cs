@@ -4,10 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 
 public class CardMovement : MonoBehaviour {
-    Vector2 playerDeckPos, opponentDeckPos;
-    Vector2 playerWinPilePos, opponentWinPilePos;
-
-    Vector2 opponentPlayPos;
     Vector2 recentOpponentPlayPos;
     GameObject playerHeldCardObjectOrigin;
     GameObject playerHeldCardObject, opponentHeldCardObject;
@@ -15,20 +11,6 @@ public class CardMovement : MonoBehaviour {
 
     private void Awake() {
         DOTween.Init();
-    }
-
-    private void Start() {
-        //  makes sure that everything is in the right spot before using their positions
-
-        playerDeckPos = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>().getDeckPos();
-        opponentDeckPos = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getDeckPos();
-
-        playerWinPilePos = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getWinPilePos();
-        opponentWinPilePos = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getWinPilePos();
-
-        float middleX = (playerDeckPos.x + opponentDeckPos.x) / 2.0f;
-        float middleY = (opponentDeckPos.y + playerDeckPos.y) / 2.0f;
-        opponentPlayPos = new Vector2(middleX, middleY + 0.75f);
     }
 
     private void LateUpdate() {
@@ -56,7 +38,7 @@ public class CardMovement : MonoBehaviour {
             randPos.y = Random.Range(-allowedError, allowedError);
 
             ob.transform.DOComplete();
-            ob.transform.DOMove(playerDeckPos + randPos, randTime, false);
+            ob.transform.DOMove(GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>().getDeckPos() + randPos, randTime, false);
         }
     }
 
@@ -71,7 +53,7 @@ public class CardMovement : MonoBehaviour {
             randPos.y = Random.Range(-allowedError, allowedError);
 
             ob.transform.DOComplete();
-            ob.transform.DOMove(opponentDeckPos + randPos, randTime, false);
+            ob.transform.DOMove(GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getDeckPos() + randPos, randTime, false);
         }
     }
 
@@ -89,7 +71,7 @@ public class CardMovement : MonoBehaviour {
             randPos.y = Random.Range(-allowedError, allowedError);
 
             ob.transform.DOComplete();
-            ob.transform.DOMove(playerWinPilePos + randPos, randTime, false);
+            ob.transform.DOMove(GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getWinPilePos() + randPos, randTime, false);
 
             if(!ob.GetComponent<CardObject>().getShowingface())
                 ob.GetComponent<CardObject>().showCardFace();
@@ -107,7 +89,7 @@ public class CardMovement : MonoBehaviour {
             randPos.y = Random.Range(-allowedError, allowedError);
 
             ob.transform.DOComplete();
-            ob.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
+            ob.transform.DOMove(GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getWinPilePos() + randPos, randTime, false);
 
             if(!ob.GetComponent<CardObject>().getShowingface())
                 ob.GetComponent<CardObject>().showCardFace();
@@ -145,7 +127,7 @@ public class CardMovement : MonoBehaviour {
             randPos.y = Random.Range(-allowedError, allowedError);
 
             a.transform.DOComplete();
-            a.transform.DOMove(playerWinPilePos + randPos, randTime, false);
+            a.transform.DOMove(GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getWinPilePos() + randPos, randTime, false);
             //  moves the resolved cards over to the win pile script
             GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().addCardToPile(a);
 
@@ -165,7 +147,7 @@ public class CardMovement : MonoBehaviour {
             randPos.y = Random.Range(-allowedError, allowedError);
 
             a.transform.DOComplete();
-            a.transform.DOMove(opponentWinPilePos + randPos, randTime, false);
+            a.transform.DOMove(GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getWinPilePos() + randPos, randTime, false);
 
             //  moves the resolved cards over to the win pile script
             GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().addCardToPile(a);
@@ -186,7 +168,7 @@ public class CardMovement : MonoBehaviour {
             randPos.y = Random.Range(-allowedError, allowedError);
 
             p.transform.DOComplete();
-            p.transform.DOMove(playerWinPilePos + randPos, randTime, false);
+            p.transform.DOMove(GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().getWinPilePos() + randPos, randTime, false);
 
             //  moves the resolved cards over to the win pile script
             GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WinPile>().addCardToPile(p);
@@ -210,11 +192,10 @@ public class CardMovement : MonoBehaviour {
             Vector2 randPos;
             randPos.x = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
             randPos.y = Random.Range(-opponentHeldCardAllowedError, opponentHeldCardAllowedError);
+            recentOpponentPlayPos = (Vector2)FindObjectOfType<Table>().gameObject.transform.position + new Vector2(0.0f, 1.5f) + randPos;
 
             opponentHeldCardObject.transform.DOComplete();
-            opponentHeldCardObject.transform.DOMove(opponentPlayPos + randPos, randTime, false);
-
-            recentOpponentPlayPos = opponentPlayPos + randPos;
+            opponentHeldCardObject.transform.DOMove(recentOpponentPlayPos, randTime, false);
         }
     }
 

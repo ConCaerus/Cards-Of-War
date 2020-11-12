@@ -14,15 +14,17 @@ public class ScoreCanvas : MonoBehaviour {
     }
 
     private void Update() {
-        setPlayerScore();
-        setOpponentScore();
+        setScores();
+        positionScores();
     }
 
-    void setPlayerScore() {
+    void setScores() {
         playerScore.text = playerWinPile.getNumOfCardsInPile().ToString();
+        opponentScore.text = opponentWinPile.getNumOfCardsInPile().ToString();
     }
 
-    void setOpponentScore() {
-        opponentScore.text = opponentWinPile.getNumOfCardsInPile().ToString();
+    void positionScores() {
+        playerScore.transform.position = FindObjectOfType<Table>().getPlayerWinPileCountPos();
+        opponentScore.transform.position = FindObjectOfType<Table>().getOpponentWinPileCountPos();
     }
 }

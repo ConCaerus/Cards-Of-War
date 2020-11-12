@@ -32,6 +32,7 @@ public class ObjectShadow : MonoBehaviour {
 
         shadow.transform.position = transform.position;
         shadow.transform.rotation = transform.rotation;
+        shadow.transform.localScale = transform.localScale;
         shadow.transform.SetParent(transform);
     }
 
