@@ -114,6 +114,17 @@ public class CardMovement : MonoBehaviour {
         }
     }
 
+    public void movePlayerCardObjectToOrigin() {
+        if(playerHeldCardObjectOrigin != null && playerHeldCardObject != null) {
+            float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
+
+            randTime = Random.Range(randTime - allowedError, randTime + allowedError);
+
+            playerHeldCardObject.transform.DOComplete();
+            playerHeldCardObject.transform.DOMove(playerHeldCardObjectOrigin.transform.position, randTime, false);
+        }
+    }
+
     //  move resolved cards
 
     public void moveResolvedCardObjectsPlayerWins(GameObject a, GameObject b = null) {
@@ -183,7 +194,7 @@ public class CardMovement : MonoBehaviour {
 
     public void moveOpponentHeldCardToPlayPos() {
         if(opponentHeldCardObject != null) {
-            float opponentHeldCardAllowedError = 0.5f;
+            float opponentHeldCardAllowedError = 0.25f;
             float randTime = 0.5f; //   set to the desired norm time;
 
             //  don't use opponent allowed error here, possibility for instant movement
@@ -217,7 +228,8 @@ public class CardMovement : MonoBehaviour {
 
             //  card is still being held
             if(Input.GetMouseButton(0)) {
-                playerHeldCardObject.transform.DOMove((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.1f);
+                var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                playerHeldCardObject.transform.position = new Vector3(target.x, target.y, playerHeldCardObject.transform.position.z);
             }
 
             //  player let of of the card and it is in play
@@ -268,6 +280,20 @@ public class CardMovement : MonoBehaviour {
                         playerHeldCardObject = null;
                         playerHeldCardObjectOrigin = null;
                     }
+
+                    //  player is a fucking idiot
+                    else {
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().setChargeAmount(GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getFilledChargeAmount());
+                        movePlayerCardObjectToOrigin();
+                        playerHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
+
+                        if(playerHeldCardObjectOrigin.GetComponent<WinPile>() != null)
+                            playerHeldCardObjectOrigin.GetComponent<WinPile>().addCardToPile(playerHeldCardObject);
+                        else if(playerHeldCardObjectOrigin.GetComponent<Deck>() != null)
+                            playerHeldCardObjectOrigin.GetComponent<Deck>().addCardToDeck(playerHeldCardObject);
+                        playerHeldCardObject = null;
+                        playerHeldCardObjectOrigin = null;
+                    }
                 }
                 
                 //  player is trying to add their card to a spot they can't
@@ -314,6 +340,7 @@ public class CardMovement : MonoBehaviour {
     
     public void setPlayerHeldCardObject(GameObject card) {
         playerHeldCardObject = card;
+        playerHeldCardObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
     }
 
     public void setPlayerHeldCardObjectOrigin(GameObject o) {
@@ -322,6 +349,7 @@ public class CardMovement : MonoBehaviour {
 
     public void setOpponentHeldCardObject(GameObject card) {
         opponentHeldCardObject = card;
+        opponentHeldCardObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
     }
 
 

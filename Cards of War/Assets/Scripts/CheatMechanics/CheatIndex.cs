@@ -57,6 +57,10 @@ public class CheatIndex : MonoBehaviour {
         if(cheat.getName() == GetComponent<WinCheat>().getName())
             return ob.AddComponent<WinCheat>();
 
+        //  love cheat
+        if(cheat.getName() == GetComponent<LoveCheat>().getName())
+            return ob.AddComponent<LoveCheat>();
+
 
 
         Debug.LogError("Cheat index needs updating");

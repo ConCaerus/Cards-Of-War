@@ -8,7 +8,7 @@ public class MenuCanvas : MonoBehaviour {
 
     //  buttons
     public void Play() {
-        StartCoroutine(loading(SceneManager.LoadSceneAsync("Game")));
+        StartCoroutine(LevelLoader.waitToLoadLevel("Game", FindObjectOfType<SceneTransitionCanvas>()));
     }
 
     public void SelectCheat() {
@@ -26,6 +26,7 @@ public class MenuCanvas : MonoBehaviour {
 
 
     //  coroutines
+    //  this fucker does nothing right now
     IEnumerator loading(AsyncOperation op) {
         while(!op.isDone) {
             //  fucking do something with this cunt

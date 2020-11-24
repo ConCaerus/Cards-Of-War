@@ -16,8 +16,9 @@ public class ObjectShadow : MonoBehaviour {
 
 
     private void Update() {
-        if(shadow != null)
+        if(shadow != null && shadow.transform.parent != null) {
             moveShadow();
+        }
     }
 
 
@@ -29,6 +30,7 @@ public class ObjectShadow : MonoBehaviour {
         sr.color = Color.black;
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.g, 0.5f);
         sr.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
+        sr.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
 
         shadow.transform.position = transform.position;
         shadow.transform.rotation = transform.rotation;
@@ -41,6 +43,8 @@ public class ObjectShadow : MonoBehaviour {
         if(shown) {
             setPos = transform.position + offset;
             shadow.transform.DOMove(setPos, duration);
+
+            shadow.GetComponent<SpriteRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
         }
 
         else
@@ -52,6 +56,8 @@ public class ObjectShadow : MonoBehaviour {
         gameObject.transform.DOMove(setPos, duration);
         shadow.transform.DOMove(transform.position, duration);
 
+        shadow.GetComponent<SpriteRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
+
         if(gameObject.transform.position == setPos)
             destroyShadow();
     }
@@ -59,6 +65,9 @@ public class ObjectShadow : MonoBehaviour {
 
     public void hideShadow() {
         shown = false;
+
+        if(shadow != null)
+            shadow.GetComponent<SpriteRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
     }
 
     public void showShadow() {

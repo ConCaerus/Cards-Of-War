@@ -23,6 +23,9 @@ public class EndGameCanvas : MonoBehaviour {
 
 
     private void Start() {
+        FindObjectOfType<CheatSelectCanvas>().hideBackground();
+        gameObject.SetActive(true);
+
         setScoreTexts();
         setTexts();
         animate();
@@ -95,7 +98,7 @@ public class EndGameCanvas : MonoBehaviour {
     //  buttons
     
     public void replay() {
-        SceneManager.LoadSceneAsync("Game");
+        StartCoroutine(LevelLoader.waitToLoadLevel("Game", FindObjectOfType<SceneTransitionCanvas>()));
     }
 
     public void changeCheat() {
@@ -104,9 +107,8 @@ public class EndGameCanvas : MonoBehaviour {
     }
 
     public void nextBattle() {
-        SceneManager.LoadSceneAsync("Game");
+        StartCoroutine(LevelLoader.waitToLoadLevel("Game", FindObjectOfType<SceneTransitionCanvas>()));
     }
-
 
     //  setters
 

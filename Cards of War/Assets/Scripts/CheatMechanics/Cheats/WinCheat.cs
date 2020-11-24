@@ -131,6 +131,7 @@ public class WinCheat : Cheat {
             var sr = winBadge.AddComponent<SpriteRenderer>();
             sr.sprite = winSprite;
             sr.sortingOrder = -1;
+            sr.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
             winBadge.AddComponent<CircleCollider2D>();
             winBadge.AddComponent<ObjectShadow>();
             if(FindObjectOfType<TableCanvas>() != null)

@@ -4831,7 +4831,7 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
 --- !u!1 &5220705196428271346
 GameObject:
   m_ObjectHideFlags: 0
@@ -9710,4 +9710,4 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2

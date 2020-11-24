@@ -5,8 +5,14 @@ using DG.Tweening;
 using UnityEngine.SceneManagement;
 
 public class GameStateHandler : MonoBehaviour {
+    Transition startTrans;
+
+
     private void Start() {
-        StartCoroutine(startGameWaiters());
+        startTrans = gameObject.AddComponent<Transition>();
+        startTrans.setStageOrder(new Transition.events[] {  Transition.events.table,    Transition.events.crowd,    Transition.events.cards,    Transition.events.opponent});
+        startTrans.setTimes     (new float[] {              0.15f,                      0.15f,                       0.15f,                      0.25f});
+        startTrans.start();
 
         //startOpponentDialog();
     }
@@ -36,7 +42,7 @@ public class GameStateHandler : MonoBehaviour {
             //  show opponent character
             case 2:
                 yield return new WaitForSeconds(0.25f);
-                FindObjectOfType<OpponentCharacterCanvas>().showCharacter();
+                FindObjectOfType<CharacterPicture>().showCharacterPicture();
                 break;
         }
 
@@ -48,6 +54,6 @@ public class GameStateHandler : MonoBehaviour {
     //  end game
 
     public void loadEndGameScreen() {
-        SceneManager.LoadSceneAsync("EndGameScreen");
+        StartCoroutine(LevelLoader.waitToLoadLevel("EndGameScreen", FindObjectOfType<SceneTransitionCanvas>()));
     }
 }
