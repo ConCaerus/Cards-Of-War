@@ -5,6 +5,9 @@ using UnityEngine;
 public abstract class Cheat : MonoBehaviour {
     public float chargeAmount;
     public const float filledChargeAmount = 10.0f;
+    bool inUse;
+
+    public Color cheatColor;
 
     private void Awake() {
         //  can add cheat to player
@@ -17,15 +20,32 @@ public abstract class Cheat : MonoBehaviour {
                 Destroy(this);
             }
         }
+
+        if(gameObject.tag == "Player" || gameObject.tag == "Opponent")
+            inUse = true;
+        else 
+            inUse = false;
+
+
+        if(cheatColor == new Color(0.0f, 0.0f, 0.0f, 0.0f)) {
+            foreach(var i in FindObjectsOfType<Cheat>()) {
+                if(i.getName() == this.getName() && i.cheatColor != new Color(0.0f, 0.0f, 0.0f, 0.0f)) {
+                    cheatColor = i.cheatColor;
+                    break;
+                }
+            }
+        }
     }
 
     private void Update() {
-        if(getCharged())
-            showCanUse();
-        else 
-            hideCanUse();
-        if(useCondition())
-            use();
+        if(inUse) {
+            if(getCharged())
+                showCanUse();
+            else 
+                hideCanUse();
+            if(useCondition())
+                use();
+        }
     }
 
     public abstract float getChargeWinAmount();
@@ -51,6 +71,11 @@ public abstract class Cheat : MonoBehaviour {
     public abstract bool useCondition();
 
 
+    public bool getInUse() {
+        return inUse;
+    }
+
+
     public void setChargeAmount(float f) {
         chargeAmount = f;
         roundChargeAmount();
@@ -66,6 +91,9 @@ public abstract class Cheat : MonoBehaviour {
 
 
     void roundChargeAmount() {
+        //  dont fucking question this, please leave it
+        if(gameObject.tag == "Player")
+            FindObjectOfType<CheatCanvas>().animate = true;
         for(int i = 1; i <= 10; i++) {
             //  charge amount needs to be rounded
             if(Mathf.Abs(chargeAmount - (i / filledChargeAmount)) < 0.005f) {

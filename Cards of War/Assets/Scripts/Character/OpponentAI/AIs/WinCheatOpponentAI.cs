@@ -10,6 +10,6 @@ public class WinCheatOpponentAI : OpponentAI {
 
 
     public override bool useCheatLogic() {
-        return GetComponent<Cheat>() != null && GetComponent<Cheat>().getCharged();
+        return GetComponent<Cheat>() != null && GetComponent<Cheat>().getCharged() && FindObjectOfType<CardMovement>().getOpponentHeldCardObject() != null;
     }
 }

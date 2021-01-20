@@ -11,7 +11,7 @@ public static class LevelLoader {
             transition.show();
 
         //  transition is still being played
-        while(transition != null && !transition.getShowing()) {
+        while(transition != null && !transition.isShowing()) {
             yield return new WaitForEndOfFrame();
         }
 

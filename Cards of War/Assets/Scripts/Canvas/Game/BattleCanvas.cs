@@ -6,7 +6,9 @@ using DG.Tweening;
 
 public class BattleCanvas : MonoBehaviour {
     [SerializeField] TextMeshProUGUI playerCardValueModText, opponentCardValueModText;
-    float cardValueModOffset;
+    float cardValueModOffset = 0.65f;
+    float cardValueModSpeed = 0.05f;
+    Color shownColor, hiddenColor;
 
     CardBattleMechanics cbm;
     CardMovement cm;
@@ -14,10 +16,11 @@ public class BattleCanvas : MonoBehaviour {
     private void Awake() {
         DOTween.Init();
 
-        playerCardValueModText.enabled = false;
-        opponentCardValueModText.enabled = false;
+        playerCardValueModText.color = hiddenColor;
+        opponentCardValueModText.color = hiddenColor;
 
-        cardValueModOffset = 1.5f;
+        shownColor = new Color(Color.white.r, Color.white.g, Color.white.b, 1.0f);
+        hiddenColor = new Color(Color.white.r, Color.white.g, Color.white.b, 0.0f);
 
         cbm = FindObjectOfType<CardBattleMechanics>();
         cm = FindObjectOfType<CardMovement>();
@@ -35,30 +38,30 @@ public class BattleCanvas : MonoBehaviour {
 
         //  enables and disables the player's card value mod
         if(playerCardValueMod > 0 && (cbm.getPlayerPlayedCard() != null || cm.getPlayerHeldCardObject() != null))
-            playerCardValueModText.enabled = true;
+            playerCardValueModText.color = shownColor;
         else
-            playerCardValueModText.enabled = false;
+            playerCardValueModText.color = hiddenColor;
 
         //  enables and disables the opponent's card value mod
         if(opponentCardValueMod > 0 && (cbm.getOpponentPlayedCard() != null || cm.getOpponentHeldCardObject() != null))
-            opponentCardValueModText.enabled = true;
+            opponentCardValueModText.color = shownColor;
         else
-            opponentCardValueModText.enabled = false;
+            opponentCardValueModText.color = hiddenColor;
 
 
         //  sets the text for the player's card value mod
-        if(playerCardValueModText.enabled == true) {
+        if(playerCardValueModText.color == shownColor) {
             playerCardValueModText.text = "+" + playerCardValueMod.ToString();
         }
 
         //  sets the text for the opponent's card value mod
-        if(opponentCardValueModText.enabled == true) {
+        if(opponentCardValueModText.color == shownColor) {
             opponentCardValueModText.text = "+" + opponentCardValueMod.ToString();
         }
 
 
         //  moves the player's card value mod to the active card
-        if(playerCardValueModText.enabled == true) {
+        if(cbm.getPlayerPlayedCard() != null || cm.getPlayerHeldCardObject() != null) {
             int numOfDigits = 0;
             if(cbm.getPlayerCardValueMod() + cbm.getTempPlayerCardValueMod() > 99)
                 numOfDigits = 3;
@@ -75,17 +78,17 @@ public class BattleCanvas : MonoBehaviour {
             else if(cm.getPlayerHeldCardObject() != null)
                 playerTarget = cm.getPlayerHeldCardObject().transform.position + new Vector3(cardValueModOffset + ((cardValueModOffset / 5.0f) * (numOfDigits - 1)), 0.0f, 0.0f);
 
-            playerCardValueModText.transform.DOMove(playerTarget, 0.15f);
+            playerCardValueModText.transform.DOMove(playerTarget, cardValueModSpeed);
         }
-        //  moves the player's card value mod to the deck if not enabled
+        //  moves the player's card value mod to the deck if no card is in play
         else {
             var playerTarget = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Deck>().getDeckPos();
-            playerCardValueModText.transform.DOMove(playerTarget, 0.1f);
+            playerCardValueModText.transform.position = playerTarget;
         }
 
 
         //  moves the opponent's card value mod to the active card
-        if(opponentCardValueModText.enabled == true) {
+        if(cbm.getOpponentPlayedCard() != null || cm.getOpponentHeldCardObject() != null) {
             int numOfDigits = 0;
             if(cbm.getOpponentCardValueMod() + cbm.getTempOpponentCardValueMod() > 99)
                 numOfDigits = 3;
@@ -100,12 +103,12 @@ public class BattleCanvas : MonoBehaviour {
             else if(cm.getOpponentHeldCardObject() != null)
                 opponentTarget = cm.getOpponentHeldCardObject().transform.position + new Vector3(cardValueModOffset + ((cardValueModOffset / 8.0f) * (numOfDigits - 1)), 0.0f, 0.0f);
 
-            opponentCardValueModText.transform.DOMove(opponentTarget, 0.15f);
+            opponentCardValueModText.transform.DOMove(opponentTarget, cardValueModSpeed);
         }
-        //  moves the opponent's card value mod to the deck if not enabled
+        //  moves the opponent's card value mod to the deck if no card is in play
         else {
             var opponentTarget = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<Deck>().getDeckPos();
-            opponentCardValueModText.transform.DOMove(opponentTarget, 0.1f);
+            opponentCardValueModText.transform.position = opponentTarget;
         }
     }
 }

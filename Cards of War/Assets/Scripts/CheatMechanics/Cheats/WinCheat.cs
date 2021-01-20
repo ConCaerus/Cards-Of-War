@@ -4,17 +4,24 @@ using UnityEngine;
 using DG.Tweening;
 
 public class WinCheat : Cheat {
-    [SerializeField] Sprite winSprite;
+    public GameObject hand;
+    GameObject handInstance;
+
+    public Sprite winSprite;
     GameObject winBadge = null;
     bool holdingBadge = false;
 
     private void Start() {
-        if(winSprite == null) {
-            foreach(var i in FindObjectsOfType<WinCheat>()) {
-                if(i.getWinSprite() != null)
-                    winSprite = i.getWinSprite();
-            }
-        }
+        if(!getInUse()) return;
+
+        if(hand == null)
+            hand = FindObjectOfType<CheatIndex>().gameObject.GetComponent<WinCheat>().hand;
+        if(winSprite == null)
+            winSprite = FindObjectOfType<CheatIndex>().gameObject.GetComponent<WinCheat>().winSprite;
+
+        handInstance = Instantiate(hand);
+        handInstance.transform.SetParent(transform);
+        handInstance.GetComponent<WinCheatHand>().forceHide();
 
         if(gameObject.tag == "Opponent" && GetComponent<OpponentAI>() == null)
             gameObject.AddComponent<WinCheatOpponentAI>();
@@ -35,10 +42,16 @@ public class WinCheat : Cheat {
         if(gameObject.tag == "Player") {
             if(Input.GetMouseButtonDown(0)) {
                 var hit = getMouseHit();
+
+                //  if the player is holding the badge object
                 if((hit != null && hit == winBadge) || holdingBadge) {
                     holdingBadge = true;
-                    winBadge.GetComponent<SpriteRenderer>().sortingOrder = 2;
+                    winBadge.GetComponent<SpriteRenderer>().sortingOrder = handInstance.GetComponent<SpriteRenderer>().sortingOrder + 2;
                     winBadge.GetComponent<ObjectShadow>().showShadow();
+
+
+                    //  show the hand
+                    handInstance.GetComponent<WinCheatHand>().show();
                 }
             }
             
@@ -49,62 +62,43 @@ public class WinCheat : Cheat {
 
             //  if the player lets go of the badge, things happen
             else if(Input.GetMouseButtonUp(0) && holdingBadge) {
-                var col = winBadge.GetComponent<Collider2D>();
-                col.enabled = false;
-                winBadge.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                winBadge.GetComponent<ObjectShadow>().hideShadow();
-                holdingBadge = false;
-                var hit = getMouseHit();
-                col.enabled = true;
-                bool returnToOrigin = true;
-
                 var cm = FindObjectOfType<CardMovement>();
                 var cbm = FindObjectOfType<CardBattleMechanics>();
-                if(hit != null) {
-                    //  adds to player
-                    if(cbm.getPlayerPlayedCard() != null && hit == cbm.getPlayerPlayedCard().gameObject) {
-                        cbm.getPlayerPlayedCard().gameObject.GetComponent<CardObject>().getCard().value = 100;
-                        addBadgeToCard(hit);
-                        setChargeAmount(0.0f);
-                        returnToOrigin = false;
-                    }
-                    //  adds to opponent
-                    else if(cbm.getOpponentPlayedCard() != null && hit == cbm.getOpponentPlayedCard().gameObject) {
-                        cbm.getOpponentPlayedCard().gameObject.GetComponent<CardObject>().getCard().value = 100;
-                        addBadgeToCard(hit);
-                        setChargeAmount(0.0f); 
-                        returnToOrigin = false;
-                    }
+                var col = winBadge.GetComponent<Collider2D>();
+                col.enabled = false;
+                winBadge.GetComponent<ObjectShadow>().destroyShadow();
+                holdingBadge = false;
+                col.enabled = true;
+
+
+                var hit = getMouseHit();
+                if(hit != null && hit == handInstance.gameObject) {
+                    FindObjectOfType<CardBattleMechanics>().setTempPlayerCardValueMod(100);
+                    addBadgeToHand();
+                    setChargeAmount(0.0f);
                 }
 
                 
-                if(returnToOrigin) {
+                else {
                     winBadge.GetComponent<ObjectShadow>().destroyShadow();
-                    winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(2.5f, 0.0f), 0.25f);
+                    winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(1.5f, 0.0f), 0.25f);
+
+                    handInstance.GetComponent<WinCheatHand>().hide();
                 }
             }
         }
 
 
         //  the opponent played the cheat
-        else if(gameObject.tag == "Opponent" && (FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard() != null && !FindObjectOfType<CardBattleMechanics>().getShown())) {
+        else if(gameObject.tag == "Opponent") {
             winBadge.transform.DOComplete();
-            FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard().gameObject.GetComponent<CardObject>().getCard().value = 100;
+            handInstance.GetComponent<WinCheatHand>().show();
+            winBadge.GetComponent<SpriteRenderer>().sortingOrder = handInstance.GetComponent<SpriteRenderer>().sortingOrder + 2;
 
-            GameObject opponentCard = FindObjectOfType<CardBattleMechanics>().getOpponentPlayedCard();
+            FindObjectOfType<CardBattleMechanics>().setTempOpponentCardValueMod(100);
 
-            winBadge.transform.SetParent(opponentCard.transform);
-            winBadge.GetComponent<SpriteRenderer>().sortingOrder = opponentCard.GetComponent<SpriteRenderer>().sortingOrder + 1;
-
-            Vector2 rand;
-            rand.x = Random.Range(-0.5f, 0.5f);
-            rand.y = Random.Range(-0.75f, 0.75f);
-            winBadge.transform.DOMove((Vector2)opponentCard.transform.position + rand, 0.5f);
-
-            winBadge.GetComponent<ObjectShadow>().hideShadow();
-            winBadge.GetComponent<Collider2D>().enabled = false;
+            StartCoroutine(opponentAddBadgeToHandWaiter());
             setChargeAmount(0.0f);
-            winBadge = null;
         }
     }
 
@@ -117,11 +111,21 @@ public class WinCheat : Cheat {
     }
 
 
-    void addBadgeToCard(GameObject card) {
+    void addBadgeToHand() {
         winBadge.GetComponent<Collider2D>().enabled = false;
-        winBadge.transform.SetParent(card.transform);
-        winBadge.GetComponent<SpriteRenderer>().sortingOrder = card.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        winBadge.transform.SetParent(handInstance.gameObject.transform);
+        handInstance.GetComponent<WinCheatHand>().hide();
         winBadge = null;
+    }
+
+
+
+    IEnumerator opponentAddBadgeToHandWaiter() {
+        yield return new WaitForSeconds(0.5f);
+        winBadge.transform.DOMove(new Vector3(handInstance.transform.position.x, handInstance.transform.position.y, winBadge.transform.position.z), 0.25f);
+
+        yield return new WaitForSeconds(0.5f);
+        addBadgeToHand();
     }
 
 
@@ -130,7 +134,7 @@ public class WinCheat : Cheat {
             winBadge = new GameObject("Win Badge");
             var sr = winBadge.AddComponent<SpriteRenderer>();
             sr.sprite = winSprite;
-            sr.sortingOrder = -1;
+            winBadge.GetComponent<SpriteRenderer>().sortingOrder = handInstance.GetComponent<SpriteRenderer>().sortingOrder + 2;
             sr.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
             winBadge.AddComponent<CircleCollider2D>();
             winBadge.AddComponent<ObjectShadow>();
@@ -138,12 +142,12 @@ public class WinCheat : Cheat {
                 winBadge.transform.rotation = FindObjectOfType<TableCanvas>().getTableRotation();
 
             if(gameObject.tag == "Player") {
-                winBadge.transform.position = gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(2.5f, -1.0f);
-                winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(2.5f, 0.0f), 0.15f);
+                winBadge.transform.position = gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(1.5f, -1.0f);
+                winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() + new Vector2(1.5f, 0.0f), 0.15f);
             }
             else if(gameObject.tag == "Opponent") {
-                winBadge.transform.position = gameObject.GetComponentInChildren<Deck>().getDeckPos() - new Vector2(2.5f, -1.0f);
-                winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() - new Vector2(2.5f, 0.0f), 0.15f);
+                winBadge.transform.position = gameObject.GetComponentInChildren<Deck>().getDeckPos() - new Vector2(1.5f, -1.0f);
+                winBadge.transform.DOMove(gameObject.GetComponentInChildren<Deck>().getDeckPos() - new Vector2(1.5f, 0.0f), 0.15f);
             }
         }
         winBadge.SetActive(true);
@@ -170,9 +174,5 @@ public class WinCheat : Cheat {
             return gameObject.GetComponent<OpponentAI>().wantsToUseCheat;
         }
         return true;
-    }
-
-    public Sprite getWinSprite() {
-        return winSprite;
     }
 }

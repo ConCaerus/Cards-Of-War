@@ -51,7 +51,7 @@ public class Transition : MonoBehaviour {
                 FindObjectOfType<MasterDeck>().populateDecks();
                 break;
             case events.crowd:
-                FindObjectOfType<AudiencePopulator>().populate();
+                FindObjectOfType<Audience>().populate();
                 break;
         }
     }

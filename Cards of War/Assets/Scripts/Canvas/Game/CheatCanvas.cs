@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.UI;
 
 public class CheatCanvas : MonoBehaviour {
     [SerializeField] Slider playerCheatSlider, opponentCheatSlider;
+    [SerializeField] GameObject playerCheatSliderFill;
+    Color normColor;
+    Vector3 normPlayerSliderScale;
     [SerializeField] bool showOpponentCheatSlider = false;
+    public bool animate = true;
 
     float speed = 18.0f;
 
@@ -18,8 +23,11 @@ public class CheatCanvas : MonoBehaviour {
 
         if(GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>() == null)
             playerCheatSlider.enabled = false;
-        else 
+        else {
             playerCheatSlider.enabled = true;
+            normPlayerSliderScale = playerCheatSlider.GetComponent<RectTransform>().localScale;
+            normColor = playerCheatSliderFill.GetComponent<Image>().color;
+        }
 
         if(GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>() == null && showOpponentCheatSlider)
             opponentCheatSlider.enabled = false;
@@ -30,6 +38,7 @@ public class CheatCanvas : MonoBehaviour {
 
     private void Update() {
         changeCheatSliderValues();
+        animatePlayerSliderWhenCharged();
     }
 
     void changeCheatSliderValues() {
@@ -42,5 +51,21 @@ public class CheatCanvas : MonoBehaviour {
             float target = GameObject.FindGameObjectWithTag("Opponent").GetComponent<Cheat>().getChargeAmount();
             opponentCheatSlider.value = Mathf.Lerp(opponentCheatSlider.value, target, speed * Time.deltaTime);
         }
+    }
+
+
+    void animatePlayerSliderWhenCharged() {
+        if(playerCheatSlider.enabled == true && GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getCharged() && animate) {
+            playerCheatSlider.GetComponent<RectTransform>().DOScaleY(normPlayerSliderScale.y + 2.0f, 0.15f);
+            playerCheatSliderFill.GetComponent<Image>().DOComplete();
+            playerCheatSliderFill.GetComponent<Image>().DOColor(GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().cheatColor, 0.15f);
+            animate = false;
+        }
+        else if(playerCheatSlider == true && !GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getCharged()) {
+            playerCheatSlider.GetComponent<RectTransform>().DOScaleY(normPlayerSliderScale.y, 0.15f);
+            playerCheatSliderFill.GetComponent<Image>().DOColor(normColor, 0.5f);
+        }
+
+        animate = !GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getCharged();
     }
 }

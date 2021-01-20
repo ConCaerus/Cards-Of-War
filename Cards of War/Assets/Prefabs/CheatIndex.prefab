@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881657626536855636}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -462.17038, y: -260.1876, z: 56.817307}
   m_LocalScale: {x: 0.6725052, y: 0.6725052, z: 0.6725052}
   m_Children: []
@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeAmount: 0
+  cheatColor: {r: 0.8941177, g: 0.454902, b: 0.454902, a: 1}
+  hand: {fileID: 5870703165964242766, guid: 8a7faac264894e1489d5ea55198d413e, type: 3}
 --- !u!114 &4848971710244774516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +76,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeAmount: 0
+  cheatColor: {r: 0.54901963, g: 0.69803923, b: 0.7058824, a: 1}
+  button: {fileID: 4573085081296308008, guid: 7906b60003d5f0e48912a8ed5e8057f3, type: 3}
 --- !u!114 &2250352293893458023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeAmount: 0
+  cheatColor: {r: 0.48317906, g: 0.8396226, b: 0.48317906, a: 1}
 --- !u!114 &72511927449641972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,6 +105,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeAmount: 0
+  cheatColor: {r: 0.9294118, g: 0.8235295, b: 0.3254902, a: 1}
+  hand: {fileID: 8481588710651891639, guid: 656bde1f363fbbd47a453a20c4a84c2a, type: 3}
   winSprite: {fileID: 21300000, guid: 82bf3d8ba7eac2a4e9278fcf21af1560, type: 3}
 --- !u!114 &7408599380048412647
 MonoBehaviour:
@@ -114,5 +121,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeAmount: 0
+  cheatColor: {r: 1, g: 0.3018868, b: 0.99242914, a: 1}
   loveCheatCanvasPreset: {fileID: 7616500602896218916, guid: ca512daee50287146bf53f0c0cffdbef,
     type: 3}

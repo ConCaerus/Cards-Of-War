@@ -3,9 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AdditionalValueCheat : Cheat {
+    public GameObject button;
+    GameObject buttonInstance;
+
+    Coroutine waitToPressButtonWaiter = null;
+
+
     private void Start() {
         if(gameObject.tag == "Opponent" && GetComponent<OpponentAI>() == null)
             gameObject.AddComponent<DefaultOpponentAI>();
+
+        if(button == null) {
+            button = FindObjectOfType<CheatIndex>().gameObject.GetComponent<AdditionalValueCheat>().button;
+        }
+
+        if(getInUse())
+            createButton();
     }
 
     public override float getChargeWinAmount() {
@@ -20,25 +33,33 @@ public class AdditionalValueCheat : Cheat {
     public override void use() {
         //  player used cheat
         if(gameObject.tag == "Player") {
-            FindObjectOfType<CardBattleMechanics>().setPlayerCardValueMod(FindObjectOfType<CardBattleMechanics>().getPlayerCardValueMod() + 1);
+            if(Input.GetMouseButtonDown(0) && buttonInstance.GetComponent<AdditionalValueButton>().isMouseOver()) {
+                FindObjectOfType<CardBattleMechanics>().setPlayerCardValueMod(FindObjectOfType<CardBattleMechanics>().getPlayerCardValueMod() + 1);
+
+                setChargeAmount(0.0f);
+            }
         }
 
         //  opponent used cheat
-        else if(gameObject.tag == "Opponent") {
-            FindObjectOfType<CardBattleMechanics>().setOpponentCardValueMod(FindObjectOfType<CardBattleMechanics>().getOpponentCardValueMod() + 1);
-            GetComponent<DialogHandler>().startCheatDialog();
+        else if(gameObject.tag == "Opponent" && waitToPressButtonWaiter == null) {
+            waitToPressButtonWaiter = StartCoroutine(waitToPressButton());
         }
-
-        setChargeAmount(0.0f);
     }
 
 
     public override void showCanUse() {
-        //  does nothing
+        buttonInstance.GetComponent<AdditionalValueButton>().show();
     }
 
     public override void hideCanUse() {
-        //  does nothing
+        buttonInstance.GetComponent<AdditionalValueButton>().hide();
+    }
+
+
+    void createButton() {
+        buttonInstance = Instantiate(button);
+        buttonInstance.transform.SetParent(transform);
+        buttonInstance.GetComponent<AdditionalValueButton>().forceHide();
     }
 
 
@@ -46,5 +67,14 @@ public class AdditionalValueCheat : Cheat {
         if(!getCharged())
             return false;
         return chargeAmount >= filledChargeAmount;
+    }
+
+
+    IEnumerator waitToPressButton() {
+        yield return new WaitForSeconds(0.25f);
+        FindObjectOfType<CardBattleMechanics>().setOpponentCardValueMod(FindObjectOfType<CardBattleMechanics>().getOpponentCardValueMod() + 1);
+
+        setChargeAmount(0.0f);
+        waitToPressButtonWaiter = null;
     }
 }

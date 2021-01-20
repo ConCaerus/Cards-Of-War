@@ -11,11 +11,11 @@ public class ObjectShadow : MonoBehaviour {
 
     float duration = 0.05f;
 
-    Vector3 offset = new Vector3(-0.25f, -0.25f);
+    Vector3 offset = new Vector3(-0.15f, -0.25f);
     Vector3 setPos;
 
 
-    private void Update() {
+    private void LateUpdate() {
         if(shadow != null && shadow.transform.parent != null) {
             moveShadow();
         }
@@ -28,7 +28,7 @@ public class ObjectShadow : MonoBehaviour {
         var sr = shadow.AddComponent<SpriteRenderer>();
         sr.sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
         sr.color = Color.black;
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.g, 0.5f);
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.g, 0.65f);
         sr.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
         sr.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
 
@@ -40,11 +40,10 @@ public class ObjectShadow : MonoBehaviour {
 
     void moveShadow() {
         shadow.SetActive(true);
+        shadow.GetComponent<SpriteRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
         if(shown) {
             setPos = transform.position + offset;
             shadow.transform.DOMove(setPos, duration);
-
-            shadow.GetComponent<SpriteRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
         }
 
         else

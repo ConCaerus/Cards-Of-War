@@ -122,6 +122,10 @@ public class CardBattleMechanics : MonoBehaviour {
         }
 
 
+        playerPlayedCard.GetComponent<SpriteRenderer>().material = FindObjectOfType<CardMovement>().normalCardMaterial;
+        opponentPlayedCard.GetComponent<SpriteRenderer>().material = FindObjectOfType<CardMovement>().normalCardMaterial;
+
+
         //  resets card variables and turns shown to false
         playerPlayedCard = null;
         opponentPlayedCard = null;
@@ -139,8 +143,8 @@ public class CardBattleMechanics : MonoBehaviour {
         GameInformation.opponentEndScore = GameObject.FindGameObjectWithTag("Opponent").GetComponentInChildren<WinPile>().getNumOfCardsInPile();
         int gameState = GameInformation.setGameResult();
 
-        //  load the end game screen.
-        StartCoroutine(waitToLoadEndGameScreen());
+        FindObjectOfType<GameStateHandler>().loadEndGameScreen();
+        this.enabled = false;
     }
 
 
@@ -159,6 +163,8 @@ public class CardBattleMechanics : MonoBehaviour {
 
         //  player ran out of cards;    opponent still has cards left
         if(plDeck.getNumOfCardsInDeck() == 0) {
+            if(GameObject.FindGameObjectWithTag("Player").GetComponent<AddCardsCheat>() != null && GameObject.FindGameObjectWithTag("Player").GetComponent<Cheat>().getCharged())
+                return;
             endGame = true;
 
             while(opDeck.getNumOfCardsInDeck() > 0) {
@@ -298,11 +304,5 @@ public class CardBattleMechanics : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
 
         resolveBattle();
-    }
-
-    IEnumerator waitToLoadEndGameScreen() {
-        yield return new WaitForSeconds(0.5f);
-
-        FindObjectOfType<GameStateHandler>().loadEndGameScreen();
     }
 }

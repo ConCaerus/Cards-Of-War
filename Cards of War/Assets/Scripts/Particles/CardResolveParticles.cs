@@ -5,8 +5,8 @@ using UnityEngine;
 public class CardResolveParticles : MonoBehaviour {
     [SerializeField] ParticleSystem winParticles, loseParticles;
 
-    float normMult = 0.5f, diff = 8.0f;
-    float minMult = 0.1f, maxMult = 3.0f;
+    float normMult = 0.05f, diff = 8.0f;
+    float minMult = 0.1f, maxMult = 0.25f;
 
     public void playParticles(int pCardVal, Vector2 pCardPos, int oCardVal, Vector2 oCardPos) {
         var win = winParticles.main;

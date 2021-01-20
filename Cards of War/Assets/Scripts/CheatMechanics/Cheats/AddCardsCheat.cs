@@ -5,10 +5,19 @@ using UnityEngine;
 public class AddCardsCheat : Cheat {
     const int cardsToAdd = 2;
 
+    public GameObject hand;
+    GameObject handInstance;
+
     
     private void Start() {
         if(gameObject.tag == "Opponent" && GetComponent<OpponentAI>() == null)
             gameObject.AddComponent<DefaultOpponentAI>();
+
+        if(hand == null) 
+            hand = FindObjectOfType<CheatIndex>().gameObject.GetComponent<AddCardsCheat>().hand;
+
+        if(getInUse())
+            createHand();
     }
 
     public override float getChargeWinAmount() {
@@ -22,58 +31,69 @@ public class AddCardsCheat : Cheat {
 
     //  this cheat adds card to the user's deck
     public override void use() {
-        List<GameObject> cards = new List<GameObject>();
-        cards.Clear();
-        for(int i = 0; i < cardsToAdd; i++) {
-            //  creates random card object
-            var temp = FindObjectOfType<MasterDeck>().createCardObject(FindObjectOfType<MasterDeck>().takeRandomCardFromPreset());
-            cards.Add(temp);
+        if(gameObject.tag == "Player" && Input.GetMouseButtonDown(0) && handInstance.GetComponent<AddCardsHand>().isMouseOver()) {
+            StartCoroutine(animateCardsWithDelay(handInstance.GetComponent<AddCardsHand>().takeCards()));
+            setChargeAmount(0.0f);
         }
 
-        //  animates and adds the cards
-        StartCoroutine(animateCardsWithDelay(cards));
-
-        if(gameObject.tag == "Opponent")
-            GetComponent<DialogHandler>().startCheatDialog();
-
-        setChargeAmount(0.0f);
+        else if(gameObject.tag == "Opponent") {
+            StartCoroutine(waitToAddCards());
+        }
     }
 
 
     public override void showCanUse() {
+        if(handInstance.GetComponent<AddCardsHand>().getCardCount() == 0)
+            handInstance.GetComponent<AddCardsHand>().populateHand(cardsToAdd);
+
+        handInstance.GetComponent<AddCardsHand>().show();
     }
 
     public override void hideCanUse() {
     }
 
 
-    public override bool useCondition() {
-        if(!getCharged())
-            return false;
-
-        if(gameObject.tag == "Player" || gameObject.tag == "Opponent") {
-            if(GetComponentInChildren<Deck>().getNumOfCardsInDeck() <= 0)
-                return false;
-        }
-        return true;
+    void createHand() {
+        handInstance = Instantiate(hand);
+        handInstance.transform.SetParent(transform);
+        handInstance.GetComponent<AddCardsHand>().forceHide();
     }
 
+
+    public override bool useCondition() {
+        return getCharged();
+    }
+
+
+
+    IEnumerator waitToAddCards() {
+        yield return new WaitForSeconds(0.25f);
+
+        StartCoroutine(animateCardsWithDelay(handInstance.GetComponent<AddCardsHand>().takeCards()));
+        setChargeAmount(0.0f);
+    }
 
     //  I know this function scares you Connor
     //  You'll be okay. I'm here for you
 
     IEnumerator animateCardsWithDelay(List<GameObject> cards) {
-        int lastIndex = cards.Count - 1;
-        if(gameObject.tag == "Player")
-            FindObjectOfType<CardMovement>().moveCardObjectToPlayerDeckPos(cards[lastIndex]);
-        else if(gameObject.tag == "Opponent")
-            FindObjectOfType<CardMovement>().moveCardObjectToOpponentDeckPos(cards[lastIndex]);
+        if(cards.Count > 0) {
+            int lastIndex = cards.Count - 1;
 
-        GetComponentInChildren<Deck>().addCardToDeck(cards[lastIndex]);
-        cards.RemoveAt(lastIndex);
+
+            if(gameObject.tag == "Player")
+                FindObjectOfType<CardMovement>().moveCardObjectToPlayerDeckPos(cards[lastIndex]);
+            else if(gameObject.tag == "Opponent")
+                FindObjectOfType<CardMovement>().moveCardObjectToOpponentDeckPos(cards[lastIndex]);
+
+            GetComponentInChildren<Deck>().addCardToDeck(cards[lastIndex]);
+            cards.RemoveAt(lastIndex);
+        }
         yield return new WaitForSeconds(0.1f);
 
         if(cards.Count > 0)
             StartCoroutine(animateCardsWithDelay(cards));
+        else 
+            handInstance.GetComponent<AddCardsHand>().hide();
     }
 }

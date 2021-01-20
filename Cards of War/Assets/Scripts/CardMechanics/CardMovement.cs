@@ -7,6 +7,8 @@ public class CardMovement : MonoBehaviour {
     Vector2 recentOpponentPlayPos;
     GameObject playerHeldCardObjectOrigin;
     GameObject playerHeldCardObject, opponentHeldCardObject;
+    [SerializeField] Material cardMaterial;
+    public Material normalCardMaterial;
 
 
     private void Awake() {
@@ -28,7 +30,7 @@ public class CardMovement : MonoBehaviour {
 
     //  move to decks
 
-    float allowedError = 0.05f, avgTime = 0.5f;
+    float allowedError = 0.05f, avgTime = 0.75f;
     public void moveCardObjectToPlayerDeckPos(GameObject ob) {
         if(ob != null) {
             float randTime = Random.Range(avgTime - allowedError, avgTime + allowedError);
@@ -249,6 +251,7 @@ public class CardMovement : MonoBehaviour {
                     if(playerHeldCardObjectOrigin.GetComponent<Deck>().getMouseOverCollider()) {
                         playerHeldCardObjectOrigin.GetComponent<Deck>().addCardToDeck(playerHeldCardObject);
                         playerHeldCardObject.GetComponent<ObjectShadow>().hideShadow();
+                        playerHeldCardObject.GetComponent<SpriteRenderer>().material = normalCardMaterial;
                         playerHeldCardObject = null;
                         playerHeldCardObjectOrigin = null;
                     }
@@ -341,6 +344,7 @@ public class CardMovement : MonoBehaviour {
     public void setPlayerHeldCardObject(GameObject card) {
         playerHeldCardObject = card;
         playerHeldCardObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+        playerHeldCardObject.GetComponent<SpriteRenderer>().material = cardMaterial;
     }
 
     public void setPlayerHeldCardObjectOrigin(GameObject o) {
@@ -350,6 +354,7 @@ public class CardMovement : MonoBehaviour {
     public void setOpponentHeldCardObject(GameObject card) {
         opponentHeldCardObject = card;
         opponentHeldCardObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+        opponentHeldCardObject.GetComponent<SpriteRenderer>().material = cardMaterial;
     }
 
 

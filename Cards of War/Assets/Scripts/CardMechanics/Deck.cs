@@ -47,6 +47,7 @@ public class Deck : MonoBehaviour {
         cardObject.GetComponent<Collider2D>().enabled = false;
         cardObjectsInDeck.Add(cardObject);
         cardObject.transform.SetParent(gameObject.transform);
+        setCardSortingOrder();
     }
 
 
@@ -83,6 +84,13 @@ public class Deck : MonoBehaviour {
     }
 
 
+    void setCardSortingOrder() {
+        for(int i = 0; i < cardObjectsInDeck.Count; i++) {
+            cardObjectsInDeck[i].GetComponent<SpriteRenderer>().sortingOrder = i - cardObjectsInDeck.Count;
+        }
+    }
+
+
     //      getters 
     public int getNumOfCardsInDeck() {
         return cardObjectsInDeck.Count;
@@ -93,6 +101,12 @@ public class Deck : MonoBehaviour {
         cardObjectsInDeck.RemoveAt(cardObjectsInDeck.Count - 1);
         temp.transform.SetParent(null);
         return temp;
+    }
+
+
+    //  fucking watch this little cunt
+    public GameObject getNextCardInDeck() {
+        return cardObjectsInDeck[cardObjectsInDeck.Count - 1];
     }
 
     public Vector2 getDeckPos() {

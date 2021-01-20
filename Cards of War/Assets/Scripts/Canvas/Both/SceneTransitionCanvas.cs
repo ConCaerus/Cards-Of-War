@@ -7,11 +7,10 @@ using DG.Tweening;
 public class SceneTransitionCanvas : MonoBehaviour {
     [SerializeField] GameObject transitionMask;
     [SerializeField] bool animate = true, showOnStart = true;
-    bool shown = false;
 
     Coroutine animation = null;
 
-    float speed = 0.25f;
+    float speed = 1.0f;
     Vector2 showPos, hidePos;
 
 
@@ -33,7 +32,8 @@ public class SceneTransitionCanvas : MonoBehaviour {
 
     void showMask() {
         if(animate) {
-            animation = StartCoroutine(incMaskAlpha());
+            transitionMask.GetComponent<Image>().DOComplete();
+            transitionMask.GetComponent<Image>().DOFade(1.0f, speed);
         }
     }
 
@@ -46,7 +46,8 @@ public class SceneTransitionCanvas : MonoBehaviour {
 
     void hideMask() {
         if(animate) {
-            animation = StartCoroutine(decMaskAlpha());
+            transitionMask.GetComponent<Image>().DOComplete();
+            transitionMask.GetComponent<Image>().DOFade(0.0f, speed);
         }
     }
 
@@ -59,6 +60,8 @@ public class SceneTransitionCanvas : MonoBehaviour {
 
     public void show() {
         forceHideMask();
+        transitionMask.GetComponent<Image>().DOComplete();
+        transitionMask.GetComponent<Image>().DOFade(1.0f, speed);
         showMask();
     }
 
@@ -84,44 +87,7 @@ public class SceneTransitionCanvas : MonoBehaviour {
     }
 
 
-    float changeAmount = 1.0f / 100.0f;
-
-    IEnumerator decMaskAlpha() {
-        Color c = transitionMask.GetComponent<Image>().color;
-
-        yield return new WaitForEndOfFrame();
-
-        if(c.a > 0.0f + changeAmount) {
-            transitionMask.GetComponent<Image>().color = new Color(c.r, c.g, c.b, c.a - changeAmount);
-            animation = StartCoroutine(decMaskAlpha());
-        }
-
-        else {
-            transitionMask.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.0f);
-            shown = false;
-            animation = null;
-        }
-    }
-
-    IEnumerator incMaskAlpha() {
-        Color c = transitionMask.GetComponent<Image>().color;
-
-        yield return new WaitForEndOfFrame();
-
-        if(c.a < 1.0f - changeAmount) {
-            transitionMask.GetComponent<Image>().color = new Color(c.r, c.g, c.b, c.a + changeAmount);
-            animation = StartCoroutine(incMaskAlpha());
-        }
-
-        else {
-            transitionMask.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1.0f);
-            shown = true;
-            animation = null;
-        }
-    }
-
-
-    public bool getShowing() {
-        return shown;
+    public bool isShowing() {
+        return transitionMask.GetComponent<Image>().color.a == 1;
     }
 }
